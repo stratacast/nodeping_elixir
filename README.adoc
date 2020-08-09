@@ -37,7 +37,7 @@ Here is a list of things that need to be done and are done:
 === Resource/Actions
 
 * [x] Accounts
-* [ ] Token info/valid
+* [x] Token info/valid
 * [ ] Checks
   ** [x] Get
   ** [x] Create
@@ -54,7 +54,7 @@ Here is a list of things that need to be done and are done:
   ** [x] Functions
   ** [x] ! Identifier functions
   ** [ ] Function docs
-* [ ] Information (Need to rearrange)
+* [x] Information
   ** [x] Get probes
   ** [x] Get locations
 * [ ] Maintenance

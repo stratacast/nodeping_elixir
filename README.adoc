@@ -1,4 +1,4 @@
-= Nodeping Elixir
+= Nodeping
 
 An Elixir package for managing checks, schedules, contacts, etc. on your NodePing account.
 
@@ -29,37 +29,3 @@ You will need to create an account at https://nodeping.com[NodePing] and fetch y
 This will be your API `token` that you provide to authenticate with the service and manage things such as checks.
 If you want to manage `SubAccounts`, you can get the ID for that subaccount under `Account Settings -> SubAccounts`,
 and the ID is next to the name.
-
-== TODO
-
-Here is a list of things that need to be done and are done:
-
-=== Resource/Actions
-
-* [x] Accounts
-* [ ] Token info/valid
-* [ ] Checks
-  ** [x] Get
-  ** [x] Create
-  ** [x] Update
-  ** [x] Delete
-  ** [x] Disable
-  ** [ ] ! Identifier functions
-* [x] Contacts
-  ** [x] Functions
-  ** [x] ! Identifier functions
-  ** [x] Function docs
-* [x] Diagnostics
-* [ ] Contact Groups
-  ** [x] Functions
-  ** [x] ! Identifier functions
-  ** [ ] Function docs
-* [ ] Information (Need to rearrange)
-  ** [x] Get probes
-  ** [x] Get locations
-* [ ] Maintenance
-* [ ] Notifications
-* [ ] Results
-  ** [ ] Function docs
-  ** [ ] ! Identifier functions
-* [ ] Schedules

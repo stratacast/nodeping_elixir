@@ -25,17 +25,19 @@ defmodule NodePing.Results do
   https://nodeping.com/docs-api-results.html#get
 
   ## Examples
-      iex> opts = [[:span, 48], [:limit, 10]]
+      iex> opts = [{:span, 48}, {:limit, 10}]
       iex> token = Application.fetch_env!(:nodeping, :token)
       iex> checkid = Application.fetch_env!(:nodeping, :checkid)
       iex> {:ok, results} = NodePingResults.get_results(token, checkid, opts)
       iex> is_map(results)
       true
+    [{:token, token}, {:accountsuppressall, accountsuppressall}]
   """
   def get_results(token, id, opts \\ [], customerid \\ nil) do
     querystrings =
-      Helpers.add_cust_id([[:token, token]] ++ opts, customerid)
-      |> Helpers.merge_querystrings("")
+      ([{:token, token}] ++ opts)
+      |> Helpers.add_cust_id(customerid)
+      |> Helpers.merge_querystrings()
 
     (@api_url <> @results_path <> "/#{id}" <> querystrings)
     |> HttpRequests.get()
@@ -43,8 +45,9 @@ defmodule NodePing.Results do
 
   def uptime(token, id, opts \\ [], customerid \\ nil) do
     querystrings =
-      Helpers.add_cust_id([[:token, token]] ++ opts, customerid)
-      |> Helpers.merge_querystrings("")
+      ([{:token, token}] ++ opts)
+      |> Helpers.add_cust_id(customerid)
+      |> Helpers.merge_querystrings()
 
     (@api_url <> @uptime_path <> "/#{id}" <> querystrings)
     |> HttpRequests.get()
@@ -52,8 +55,8 @@ defmodule NodePing.Results do
 
   def current_events(token, customerid \\ nil) do
     querystrings =
-      Helpers.add_cust_id([[:token, token]], customerid)
-      |> Helpers.merge_querystrings("")
+      Helpers.add_cust_id([{:token, token}], customerid)
+      |> Helpers.merge_querystrings()
 
     (@api_url <> @current_path <> querystrings)
     |> HttpRequests.get()

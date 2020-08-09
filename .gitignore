@@ -24,3 +24,4 @@ nodeping_elixir-*.tar
 
 /.elixir_ls/
 .secrets.sh
+README.html

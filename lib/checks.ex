@@ -236,7 +236,6 @@ defmodule NodePing.Checks do
     querystrings =
       Helpers.add_cust_id([{:token, token}], customerid)
       |> Helpers.merge_querystrings()
-      |> IO.inspect()
 
     default_fields = Map.from_struct(checktype_struct)
     # Get keys that user supplied that matches values in struct

@@ -38,13 +38,13 @@ Here is a list of things that need to be done and are done:
 
 * [x] Accounts
 * [x] Token info/valid
-* [ ] Checks
+* [x] Checks
   ** [x] Get
   ** [x] Create
   ** [x] Update
   ** [x] Delete
   ** [x] Disable
-  ** [ ] ! Identifier functions
+  ** [x] ! Identifier functions
 * [x] Contacts
   ** [x] Functions
   ** [x] ! Identifier functions

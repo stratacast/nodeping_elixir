@@ -16,7 +16,7 @@ by adding `nodeping` to your list of dependencies in `mix.exs`:
 ----
 def deps do
   [
-    {:nodeping, git: "https://github.com/stratacast/nodeping_elixir", tag: "0.1.0"}
+    {:nodeping, git: "https://github.com/stratacast/nodeping_elixir", tag: "0.1.2"}
   ]
 end
 ----
@@ -59,7 +59,7 @@ Here is a list of things that need to be done and are done:
   ** [x] Get locations
 * [ ] Maintenance
 * [ ] Notifications
-* [ ] Results
-  ** [ ] Function docs
-  ** [ ] ! Identifier functions
+* [x] Results
+  ** [x] Function docs
+  ** [x] ! Identifier functions
 * [ ] Schedules

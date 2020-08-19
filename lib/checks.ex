@@ -18,8 +18,13 @@ defmodule NodePing.Checks do
 
   - `token` - NodePing API token that is provided with account
   - `customerid` - optional ID to access a subaccount
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> {:ok, result} = NodePing.Checks.get_checks(token)
   """
-  def get_checks(token, customerid \\ nil) when is_bitstring(token) do
+  def get_checks(token, customerid \\ nil) do
     querystrings =
       Helpers.add_cust_id([{:token, token}], customerid)
       |> Helpers.merge_querystrings()
@@ -29,12 +34,36 @@ defmodule NodePing.Checks do
   end
 
   @doc """
-  Get all passings checks present on your NodePing account or subaccount
+    Get all checks present on your NodePing account or specified subaccount
 
-  ## Parameters
+   ## Parameters
 
-  - `token` - NodePing API token that is provided with account
-  - `customerid` - optional ID to access a subaccount
+   - `token` - NodePing API token that is provided with account
+   - `customerid` - optional ID to access a subaccount
+
+   ## Examples
+       iex> token = System.fetch_env!("TOKEN")
+       iex> result = NodePing.Checks.get_checks!(token)
+  """
+  def get_checks!(token, customerid \\ nil) do
+    case get_checks(token, customerid) do
+      {:ok, result} -> result
+      {:error, error} -> error
+    end
+  end
+
+  @doc """
+   Get all passings checks present on your NodePing account or subaccount
+
+   ## Parameters
+
+   - `token` - NodePing API token that is provided with account
+   - `customerid` - optional ID to access a subaccount
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> passing_checks = NodePing.Checks.get_passing_checks(token)
   """
   def get_passing_checks(token, customerid \\ nil) do
     {:ok, result} = get_checks(token, customerid)
@@ -86,6 +115,22 @@ defmodule NodePing.Checks do
   end
 
   @doc """
+  Get the last result for a specified check
+
+  ## Parameters
+
+  - `token` - NodePing API token that is provided with account
+  - `id` - Check ID of the check you want to fetch the last result for
+  - `customerid` - optional ID to access a subaccount
+  """
+  def get_last_result!(token, id, customerid \\ nil) do
+    case get_last_result(token, id, customerid) do
+      {:ok, result} -> result
+      {:error, error} -> error
+    end
+  end
+
+  @doc """
   Get information about a NodePing check
 
   ## Parameters
@@ -94,13 +139,29 @@ defmodule NodePing.Checks do
   - `id` - Check ID of the check you want to fetch information about
   - `customerid` - optional ID to access a subaccount
   """
-  def get_by_id(token, id, customerid \\ nil) when is_bitstring(token) do
+  def get_by_id(token, id, customerid \\ nil) do
     querystrings =
       Helpers.add_cust_id([{:token, token}], customerid)
       |> Helpers.merge_querystrings()
 
     (@api_url <> "/checks/#{id}" <> querystrings)
     |> HttpRequests.get()
+  end
+
+  @doc """
+  Get information about a NodePing check
+
+  ## Parameters
+
+  - `token` - NodePing API token that is provided with account
+  - `id` - Check ID of the check you want to fetch information about
+  - `customerid` - optional ID to access a subaccount
+  """
+  def get_by_id!(token, id, customerid \\ nil) do
+    case get_by_id(token, id, customerid) do
+      {:ok, result} -> result
+      {:error, error} -> error
+    end
   end
 
   @doc """
@@ -142,11 +203,8 @@ defmodule NodePing.Checks do
     {:ok, result} = get_by_id(token, id, customerid)
 
     case result do
-      %{"error" => _x} ->
-        false
-
-      %{"_id" => _x} ->
-        true
+      %{"error" => _x} -> false
+      %{"_id" => _x} -> true
     end
   end
 
@@ -166,11 +224,19 @@ defmodule NodePing.Checks do
    - `checktype_struct` - the `NodePing.Checktypes` that defines the check you are trying to create
    - `args` - non-default parameters you want to set for creating your check
    - `customerid` - optional customerid for subaccount
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> checktype = NodePing.Checktypes.Ping
+      iex> args = %{label: "my label", target: "example.com", interval: 1, enabled: true}
+      iex> NodePing.Checks.create_check(token, checktype, args)
   """
   def create_check(token, checktype_struct, args, customerid \\ nil) when is_map(args) do
     querystrings =
       Helpers.add_cust_id([{:token, token}], customerid)
       |> Helpers.merge_querystrings()
+      |> IO.inspect()
 
     default_fields = Map.from_struct(checktype_struct)
     # Get keys that user supplied that matches values in struct
@@ -184,7 +250,50 @@ defmodule NodePing.Checks do
   end
 
   @doc """
+  Create a new check for your NodePing account or subaccount
+
+  Create any of the listed NodePing checks at:
+  `https://nodeping.com/docs-api-checks.html`
+  and view the "Fields by check type" section to see which checks
+  accept what fields.
+
+  ## Parameters
+
+   - `token` - NodePing API token that is provided with account
+   - `checktype_struct` - the `NodePing.Checktypes` that defines the check you are trying to create
+   - `args` - non-default parameters you want to set for creating your check
+   - `customerid` - optional customerid for subaccount
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> checktype = NodePing.Checktypes.Ping
+      iex> args = %{label: "my label", target: "example.com", interval: 1, enabled: true}
+      iex> NodePing.Checks.create_check!(token, checktype, args)
+  """
+  def create_check!(token, checktype_struct, args, customerid \\ nil) when is_map(args) do
+    case NodePing.Checks.create_check(token, checktype_struct, args, customerid) do
+      {:ok, result} -> result
+      {:error, error} -> error
+    end
+  end
+
+  @doc """
   Update an existing check for your NodePing account or subaccount
+   ## Parameters
+
+   - `token` - NodePing API token that is provided with account
+   - `checktype_struct` - the `NodePing.Checktypes` that defines the check you are trying to create
+   - `args` - non-default parameters you want to set for creating your check
+   - `customerid` - optional customerid for subaccount
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> check_id = "201205050153W2Q4C-0J2HSIRF"
+      iex> checktype = NodePing.Checktypes.Ping
+      iex> args = %{label: "my label", target: "example.com", interval: 1, enabled: true}
+      iex> NodePing.Checks.update_check(token, check_id, checktype, args)
   """
   def update_check(token, id, checktype_struct, args, customerid \\ nil) when is_map(args) do
     querystrings =
@@ -203,6 +312,30 @@ defmodule NodePing.Checks do
   end
 
   @doc """
+  Update an existing check for your NodePing account or subaccount
+   ## Parameters
+
+   - `token` - NodePing API token that is provided with account
+   - `checktype_struct` - the `NodePing.Checktypes` that defines the check you are trying to create
+   - `args` - non-default parameters you want to set for creating your check
+   - `customerid` - optional customerid for subaccount
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> check_id = "201205050153W2Q4C-0J2HSIRF"
+      iex> checktype = NodePing.Checktypes.Ping
+      iex> args = %{label: "my label", target: "example.com", interval: 1, enabled: true}
+      iex> NodePing.Checks.update_check!(token, check_id, checktype, args)
+  """
+  def update_check!(token, id, checktype_struct, args, customerid \\ nil) when is_map(args) do
+    case NodePing.Checks.update_check(token, id, checktype_struct, args, customerid) do
+      {:ok, result} -> result
+      {:error, error} -> error
+    end
+  end
+
+  @doc """
   Delete a check present on your NodePing account or specified subaccount
 
   ## Parameters
@@ -210,6 +343,12 @@ defmodule NodePing.Checks do
   - `token` - NodePing API token that is provided with account
   - `id` - the check ID that you want to delete
   - `customerid` - optional ID to access a subaccount
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> check_id = "201205050153W2Q4C-0J2HSIRF"
+      iex> {:ok, result} = NodePing.Checks.delete_check(token, check_id)
   """
   def delete_check(token, id, customerid \\ nil) when is_bitstring(token) do
     querystrings =
@@ -218,6 +357,28 @@ defmodule NodePing.Checks do
 
     (@api_url <> "/checks/#{id}" <> querystrings)
     |> HttpRequests.delete()
+  end
+
+  @doc """
+  Delete a check present on your NodePing account or specified subaccount
+
+  ## Parameters
+
+  - `token` - NodePing API token that is provided with account
+  - `id` - the check ID that you want to delete
+  - `customerid` - optional ID to access a subaccount
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> check_id = "201205050153W2Q4C-0J2HSIRF"
+      iex> result = NodePing.Checks.delete_check!(token, check_id)
+  """
+  def delete_check!(token, id, customerid \\ nil) when is_bitstring(token) do
+    case NodePing.Checks.delete_check(token, id, customerid) do
+      {:ok, result} -> result
+      {:error, error} -> error
+    end
   end
 
   @doc """
@@ -232,16 +393,40 @@ defmodule NodePing.Checks do
   - `opts` - a keyword list with keys of `:type`, `:label`, `:target` as possible options
 
   ## Examples
-      iex> opts = [[:type, "PING"], [:target, "example.com"]]
-
+      iex> opts = [{:type, "PING"}, {:target, "example.com"}]
+      iex> disableall = true
+      iex> {:ok, result} = NodePing.Checks.disable_all_checks(token, disableall, opts)
   """
-  def disable_all_checks(token, disableall, opts \\ [], customerid \\ nil)
-      when is_boolean(disableall) do
+  def disable_all_checks(token, disableall, opts \\ [], customerid \\ nil) do
     querystrings =
       Helpers.add_cust_id([{:token, token}] ++ opts ++ [{:disableall, disableall}], customerid)
       |> Helpers.merge_querystrings()
+      |> URI.encode()
 
     (@api_url <> "/checks" <> querystrings)
     |> HttpRequests.put()
+  end
+
+  @doc """
+  Disable a check present on your NodePing account or specified subaccount
+
+  ## Parameters
+
+  - `token` - NodePing API token that is provided with account
+  - `id` - the check ID that you want to delete
+  - `customerid` - optional ID to access a subaccount
+  - `disableall` - boolean value. true = disable all, false = re-enable those checks
+  - `opts` - a keyword list with keys of `:type`, `:label`, `:target` as possible options
+
+  ## Examples
+      iex> opts = [{:type, "PING"}, {:target, "example.com"}]
+      iex> disableall = true
+      iex> result = NodePing.Checks.disable_all_checks!(token, disableall, opts)
+  """
+  def disable_all_checks!(token, disableall, opts \\ [], customerid \\ nil) do
+    case NodePing.Checks.disable_all_checks(token, disableall, opts, customerid) do
+      {:ok, result} -> result
+      {:error, error} -> error
+    end
   end
 end

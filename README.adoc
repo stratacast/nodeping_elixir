@@ -58,7 +58,7 @@ Here is a list of things that need to be done and are done:
   ** [x] Get probes
   ** [x] Get locations
 * [x] Maintenance
-* [ ] Notifications
+* [x] Notifications
 * [x] Results
   ** [x] Function docs
   ** [x] ! Identifier functions

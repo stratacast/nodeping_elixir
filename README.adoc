@@ -20,7 +20,7 @@ by adding `nodeping` to your list of dependencies in `mix.exs`:
 ----
 def deps do
   [
-    {:nodeping, git: "https://github.com/stratacast/nodeping_elixir", tag: "0.9.0"}
+    {:nodeping, git: "https://github.com/stratacast/nodeping_elixir", tag: "0.9.1"}
   ]
 end
 ----

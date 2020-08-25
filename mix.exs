@@ -4,7 +4,7 @@ defmodule NodePing.MixProject do
   def project do
     [
       app: :nodeping,
-      version: "0.9.0",
+      version: "0.9.1",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       deps: deps()

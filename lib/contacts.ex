@@ -9,16 +9,61 @@ defmodule NodePing.Contacts do
   @api_url "https://api.nodeping.com/api/1"
 
   @doc """
-  Get contacts on your NodePing account or subaccount. Supply
-  an optional `id` to get info for a single contact
+  Get all contacts on your NodePing account or subaccount
 
   ## Parameters
 
   - `token` - NodePing API token that was provided with account
-  - `id` - (optional) contact ID for getting a single contact
   - `customerid` - optional ID to access a subaccount
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> {:ok, result} = NodePing.Contacts.get_all(token)
   """
-  def get_contacts(token, id \\ nil, customerid \\ nil) do
+  def get_all(token, customerid \\ nil) do
+    add_cust_id([{:token, token}], customerid)
+    |> merge_querystrings()
+    |> (fn x -> @api_url <> "/contacts" <> x end).()
+    |> get()
+  end
+
+  @doc """
+  Get all contacts on your NodePing account or subaccount
+
+  ## Parameters
+
+  - `token` - NodePing API token that was provided with account
+  - `customerid` - optional ID to access a subaccount
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> result = NodePing.Contacts.get_all!(token)
+  """
+  def get_all!(token, customerid \\ nil) do
+    case get_all(token, customerid) do
+      {:ok, result} -> result
+      {:error, error} -> error
+    end
+  end
+
+  @doc """
+  Get a contact on your NodePing account or subaccount
+
+  ## Parameters
+
+  - `token` - NodePing API token that was provided with account
+  - `id` - contact ID for getting a single contact
+  - `customerid` - optional ID to access a subaccount
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> id = "201205050153W2Q4C-BKPGH"
+      iex> {:ok, result} = NodePing.Contacts.get_by_id(token, id)
+  """
+  def get_by_id(token, id, customerid \\ nil) do
     add_cust_id([{:token, token}], customerid)
     |> merge_querystrings()
     |> (fn x -> @api_url <> "/contacts/#{id}" <> x end).()
@@ -32,11 +77,17 @@ defmodule NodePing.Contacts do
   ## Parameters
 
   - `token` - NodePing API token that was provided with account
-  - `id` - (optional) contact ID for getting a single contact
+  - `id` - contact ID for getting a single contact
   - `customerid` - optional ID to access a subaccount
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> id = "201205050153W2Q4C-BKPGH"
+      iex> result = NodePing.Contacts.get_by_id!(token, id)
   """
-  def get_contacts!(token, id \\ nil, customerid \\ nil) do
-    case get_contacts(token, id, customerid) do
+  def get_by_id!(token, id, customerid \\ nil) do
+    case get_by_id(token, id, customerid) do
       {:ok, result} -> result
       {:error, error} -> error
     end

@@ -7,6 +7,10 @@ There are still a few features that aren't supported yet and module and function
 progress. This is also my first Elixir project, pull requests, issue reports, and code criticism are
 appreciated. :)
 
+NOTE: Current state: The package is complete at this point,
+but is being rechecked at this point to look for anything missing
+plus an update to the SSL check and an update to the README will need to be done
+
 == Installation
 
 The package can be installed

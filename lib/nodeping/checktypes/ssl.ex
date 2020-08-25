@@ -5,6 +5,7 @@ defmodule NodePing.Checktypes.Ssl do
     label: "",
     type: "SSL",
     warningdays: nil,
+    servername: nil,
     interval: 15,
     enabled: false,
     public: false,

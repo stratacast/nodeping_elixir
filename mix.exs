@@ -26,7 +26,8 @@ defmodule NodePing.MixProject do
   defp deps do
     [
       {:httpoison, "~> 1.7"},
-      {:jason, "~> 1.2"}
+      {:jason, "~> 1.2"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 
@@ -36,7 +37,7 @@ defmodule NodePing.MixProject do
 
   defp package() do
     [
-      files: ~w(lib LICENSE mix.exs mix.lock README.adoc test)
+      files: ~w(lib LICENSE mix.exs README.adoc),
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/stratacast/nodeping_elixir"}
     ]

@@ -3,7 +3,7 @@
 
 = NodePing Elixir
 
-An Elixir package for managing checks, schedules, contacts, etc. on your NodePing account. You can find your API key
+An Elixir package for managing checks, schedules, contacts, etc. on your NodePing account.
 
 NOTE: Current state: The package is complete at this point,
 but is being rechecked at this point to look for anything missing
@@ -11,8 +11,7 @@ plus an update to the SSL check and an update to the README will need to be done
 
 == Installation
 
-The package can be installed
-by adding `nodeping` to your list of dependencies in `mix.exs`:
+The package can be installed by adding `nodeping` to your list of dependencies in `mix.exs`:
 
 [source,elixir]
 ----

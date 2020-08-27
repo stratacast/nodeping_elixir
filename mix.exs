@@ -7,7 +7,11 @@ defmodule NodePing.MixProject do
       version: "1.0.0",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      description: description(),
+      package: package(),
+      deps: deps(),
+      name: "NodePing Elixir",
+      source_url: "https://github.com/stratacast/nodeping_elixir"
     ]
   end
 
@@ -23,6 +27,18 @@ defmodule NodePing.MixProject do
     [
       {:httpoison, "~> 1.7"},
       {:jason, "~> 1.2"}
+    ]
+  end
+
+  defp description() do
+    "An Elixir package for managing checks, schedules, contacts, etc. on your NodePing account."
+  end
+
+  defp package() do
+    [
+      files: ~w(lib LICENSE mix.exs mix.lock README.adoc test)
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/stratacast/nodeping_elixir"}
     ]
   end
 end

@@ -17,36 +17,102 @@ defmodule NodePing.Checks do
   ## Parameters
 
   - `token` - NodePing API token that is provided with account
+  - `opts` - Optional list of tuples to specify results.
+
+  ## Opts
+
   - `customerid` - optional ID to access a subaccount
+  - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
 
   ## Examples
 
       iex> token = System.fetch_env!("TOKEN")
-      iex> {:ok, result} = NodePing.Checks.get_checks(token)
+      iex> customerid = System.fetch_env!("CUSTOMERID")
+      iex> {:ok, result} = NodePing.Checks.get_checks(token, [{:customerid, customerid}])
   """
-  def get_checks(token, customerid \\ nil) do
-    querystrings =
-      Helpers.add_cust_id([{:token, token}], customerid)
-      |> Helpers.merge_querystrings()
+  def get_checks(token, opts \\ []) do
+    querystrings = Helpers.merge_querystrings([{:token, token}] ++ opts)
 
     (@api_url <> "/checks" <> querystrings)
     |> HttpRequests.get()
   end
 
   @doc """
-    Get all checks present on your NodePing account or specified subaccount
+  Get all checks present on your NodePing account or specified subaccount
 
-   ## Parameters
+  ## Parameters
 
-   - `token` - NodePing API token that is provided with account
-   - `customerid` - optional ID to access a subaccount
+  - `token` - NodePing API token that is provided with account
+  - `opts` - Optional list of tuples to specify results.
 
-   ## Examples
-       iex> token = System.fetch_env!("TOKEN")
-       iex> result = NodePing.Checks.get_checks!(token)
+  ## Opts
+
+  - `customerid` - optional ID to access a subaccount
+  - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> customerid = System.fetch_env!("CUSTOMERID")
+      iex> result = NodePing.Checks.get_checks!(token, [{:customerid, customerid}])
   """
-  def get_checks!(token, customerid \\ nil) do
-    case get_checks(token, customerid) do
+  def get_checks!(token, opts \\ []) do
+    case get_checks(token, opts) do
+      {:ok, result} -> result
+      {:error, error} -> error
+    end
+  end
+
+  @doc """
+  Get many checks at once on your NodePing account or specified subaccount
+
+  ## Parameters
+
+  - `token` - NodePing API token that is provided with account
+  - `checkids` - list of checkids that will be queried
+  - `opts` - Optional list of tuples to specify results
+
+  ## Opts
+
+  - `customerid` - optional ID to access a subaccount
+  - `uptime` - boolean - If this parameter is present, the checks uptimes wilwl be added to the response
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> checkids = ["201205050153W2Q4C-0J2HSIRF", "201205050153W2Q4C-4RZT8MLN"]
+      iex> {:ok, result} = NodePing.Checks.get_many(token, checkids, [{:uptime, true}])
+  """
+  def get_many(token, checkids, opts \\ []) do
+    ids = {:id, Enum.join(checkids, ",")}
+    querystrings = Helpers.merge_querystrings([{:token, token}, ids] ++ opts)
+
+    (@api_url <> "/checks" <> querystrings)
+    |> HttpRequests.get()
+  end
+
+  @doc """
+  Get many checks at once on your NodePing account or specified subaccount
+
+  ## Parameters
+
+  - `token` - NodePing API token that is provided with account
+  - `checkids` - list of checkids that will be queried
+  - `opts` - Optional list of tuples to specify results
+
+  ## Opts
+
+  - `customerid` - optional ID to access a subaccount
+  - `uptime` - boolean - If this parameter is present, the checks uptimes wilwl be added to the response
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> checkids = ["201205050153W2Q4C-0J2HSIRF", "201205050153W2Q4C-4RZT8MLN"]
+      iex> result = NodePing.Checks.get_many!(token, checkids, [{:uptime, true}])
+  """
+  def get_many!(token, checkids, opts \\ []) do
+    case get_many(token, checkids, opts) do
       {:ok, result} -> result
       {:error, error} -> error
     end
@@ -58,16 +124,50 @@ defmodule NodePing.Checks do
    ## Parameters
 
    - `token` - NodePing API token that is provided with account
+   - `opts` - Optional list of tuples to specify results
+
+   ## Opts
+
    - `customerid` - optional ID to access a subaccount
+   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
 
   ## Examples
 
       iex> token = System.fetch_env!("TOKEN")
-      iex> passing_checks = NodePing.Checks.get_passing_checks(token)
+      iex> passing_checks = NodePing.Checks.get_passing_checks(token, [{:uptime, true}])
   """
-  def get_passing_checks(token, customerid \\ nil) do
-    {:ok, result} = get_checks(token, customerid)
-    Enum.filter(result, fn {_k, v} -> v["state"] == 1 end)
+  def get_passing_checks(token, opts \\ []) do
+    # {:ok, result} = get_checks(token, opts)
+    # Enum.filter(result, fn {_k, v} -> v["state"] == 1 end)
+    case get_checks(token, opts) do
+      {:ok, result} -> {:ok, Enum.filter(result, fn {_k, v} -> v["state"] == 1 end)}
+      {:error, error} -> error
+    end
+  end
+
+  @doc """
+   Get all passings checks present on your NodePing account or subaccount
+
+   ## Parameters
+
+   - `token` - NodePing API token that is provided with account
+   - `opts` - Optional list of tuples to specify results
+
+   ## Opts
+
+   - `customerid` - optional ID to access a subaccount
+   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> passing_checks = NodePing.Checks.get_passing_checks!(token, [{:uptime, true}])
+  """
+  def get_passing_checks!(token, opts \\ []) do
+    case get_passing_checks(token, opts) do
+      {:ok, result} -> result
+      error -> error
+    end
   end
 
   @doc """
@@ -76,11 +176,48 @@ defmodule NodePing.Checks do
   ## Parameters
 
   - `token` - NodePing API token that is provided with account
+  - `opts` - Optional list of tuples to specify results
+
+  ## Opts
+
   - `customerid` - optional ID to access a subaccount
+  - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> {:ok, failing_checks} = NodePing.Checks.get_failing_checks(token)
   """
-  def get_failing_checks(token, customerid \\ nil) do
-    {:ok, result} = get_checks(token, customerid)
-    Enum.filter(result, fn {_k, v} -> v["state"] == 0 end)
+  def get_failing_checks(token, opts \\ []) do
+    case get_checks(token, opts) do
+      {:ok, result} -> {:ok, Enum.filter(result, fn {_k, v} -> v["state"] == 0 end)}
+      {:error, error} -> error
+    end
+  end
+
+  @doc """
+  Get all failing checks present on your NodePing account or subaccount
+
+  ## Parameters
+
+  - `token` - NodePing API token that is provided with account
+  - `opts` - Optional list of tuples to specify results
+
+  ## Opts
+
+  - `customerid` - optional ID to access a subaccount
+  - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> failing_checks = NodePing.Checks.get_failing_checks!(token)
+  """
+  def get_failing_checks!(token, opts \\ []) do
+    case get_failing_checks(token, opts) do
+      {:ok, result} -> result
+      error -> error
+    end
   end
 
   @doc """
@@ -89,11 +226,40 @@ defmodule NodePing.Checks do
   ## Parameters
 
   - `token` - NodePing API token that is provided with account
+  - `opts` - Optional list of tuples to specify results
+
+  ## Opts
+
   - `customerid` - optional ID to access a subaccount
+  - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
+
   """
-  def get_disabled_checks(token, customerid \\ nil) do
-    {:ok, result} = get_checks(token, customerid)
-    Enum.filter(result, fn {_k, v} -> v["enable"] != "active" end)
+  def get_disabled_checks(token, opts \\ []) do
+    case get_checks(token, opts) do
+      {:ok, result} -> {:ok, Enum.filter(result, fn {_k, v} -> v["enable"] != "active" end)}
+      {:error, error} -> error
+    end
+  end
+
+  @doc """
+  Get all disabled checks present on your NodePing account or subaccount
+
+  ## Parameters
+
+  - `token` - NodePing API token that is provided with account
+  - `opts` - Optional list of tuples to specify results
+
+  ## Opts
+
+  - `customerid` - optional ID to access a subaccount
+  - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
+
+  """
+  def get_disabled_checks!(token, opts \\ []) do
+    case get_disabled_checks(token, opts) do
+      {:ok, result} -> result
+      error -> error
+    end
   end
 
   @doc """
@@ -103,12 +269,15 @@ defmodule NodePing.Checks do
 
   - `token` - NodePing API token that is provided with account
   - `id` - Check ID of the check you want to fetch the last result for
+  - `opts` - Optional list of tuples to specify results
+
+  ## Opts
+
   - `customerid` - optional ID to access a subaccount
+  - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
   """
-  def get_last_result(token, id, customerid \\ nil) do
-    querystrings =
-      Helpers.add_cust_id([{:token, token}], customerid)
-      |> Helpers.merge_querystrings()
+  def get_last_result(token, id, opts \\ []) do
+    querystrings = Helpers.merge_querystrings([{:token, token}] ++ opts)
 
     (@api_url <> "/checks/#{id}" <> querystrings <> "&lastresult=true")
     |> HttpRequests.get()
@@ -121,7 +290,12 @@ defmodule NodePing.Checks do
 
   - `token` - NodePing API token that is provided with account
   - `id` - Check ID of the check you want to fetch the last result for
+  - `opts` - Optional list of tuples to specify results
+
+  ## Opts
+
   - `customerid` - optional ID to access a subaccount
+  - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
   """
   def get_last_result!(token, id, customerid \\ nil) do
     case get_last_result(token, id, customerid) do
@@ -137,25 +311,33 @@ defmodule NodePing.Checks do
 
   - `token` - NodePing API token that is provided with account
   - `id` - Check ID of the check you want to fetch information about
+  - `opts` - Optional list of tuples to specify results
+
+  ## Opts
+
   - `customerid` - optional ID to access a subaccount
+  - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
   """
-  def get_by_id(token, id, customerid \\ nil) do
-    querystrings =
-      Helpers.add_cust_id([{:token, token}], customerid)
-      |> Helpers.merge_querystrings()
+  def get_by_id(token, id, opts \\ []) do
+    querystrings = Helpers.merge_querystrings([{:token, token}] ++ opts)
 
     (@api_url <> "/checks/#{id}" <> querystrings)
     |> HttpRequests.get()
   end
 
   @doc """
-  Get information about a NodePing check
+   Get information about a NodePing check
 
-  ## Parameters
+   ## Parameters
 
-  - `token` - NodePing API token that is provided with account
-  - `id` - Check ID of the check you want to fetch information about
-  - `customerid` - optional ID to access a subaccount
+   - `token` - NodePing API token that is provided with account
+   - `id` - Check ID of the check you want to fetch information about
+   - `opts` - Optional list of tuples to specify results
+
+   ## Opts
+
+   - `customerid` - optional ID to access a subaccount
+   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
   """
   def get_by_id!(token, id, customerid \\ nil) do
     case get_by_id(token, id, customerid) do

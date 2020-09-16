@@ -3,8 +3,8 @@ defmodule NodePing.Schedules do
   Schedules are used for setting time windows for notifications. This module
   manages schedules for your account/subaccounts
   """
-  alias NodePing.HttpRequests, as: HttpRequests
   alias NodePing.Helpers, as: Helpers
+  alias NodePing.HttpRequests, as: HttpRequests
 
   @api_url "https://api.nodeping.com/api/1/schedules"
 

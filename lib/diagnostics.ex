@@ -48,7 +48,6 @@ defmodule NodePing.Diagnostics do
     |> Map.to_list()
     |> merge_querystrings()
     |> (fn x -> @api_url <> "/diagnostics/#{checkid}" <> x end).()
-    |> IO.inspect()
     |> get()
   end
 end

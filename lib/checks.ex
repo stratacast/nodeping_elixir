@@ -4,8 +4,8 @@ defmodule NodePing.Checks do
   and subaccounts
   """
 
-  alias NodePing.HttpRequests, as: HttpRequests
   alias NodePing.Helpers, as: Helpers
+  alias NodePing.HttpRequests, as: HttpRequests
 
   @api_url "https://api.nodeping.com/api/1"
 

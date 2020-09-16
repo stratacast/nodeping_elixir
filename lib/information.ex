@@ -3,8 +3,8 @@ defmodule NodePing.Information do
   Get information about NodePing probes and regions
   """
 
-  alias NodePing.HttpRequests, as: HttpRequests
   alias NodePing.Helpers, as: Helpers
+  alias NodePing.HttpRequests, as: HttpRequests
 
   @api_url "https://api.nodeping.com/api/1"
   @probe_url "/info/probe"

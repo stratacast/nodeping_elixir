@@ -16,6 +16,7 @@ defmodule NodePing.Helpers do
   """
   def merge_querystrings(querystrings) when is_list(querystrings) do
     querystrings
+    |> Enum.filter(fn {_k, v} -> is_nil(v) == false end)
     |> Enum.reduce("", fn {k, v}, acc -> "&#{Atom.to_string(k)}=#{v}#{acc}" end)
     |> String.replace_leading("&", "?")
   end

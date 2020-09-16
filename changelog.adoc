@@ -1,0 +1,24 @@
+= Changelog
+
+All notable changes to this project will be documented in this file.
+
+== Unreleased
+
+(Placeholder for unreleased content)
+
+== 2020-09-15 v1.2.0
+
+=== Added
+
+* Functionality added to the NodePing API on https://nodeping.com/docs-api-changes.html[2020-09-14]
+	** New function `NodePing.Checks.get_many` and `NodePing.Checks.get_many!`
+	** Uptime functionality added to all the `NodePing.Checks` get functions
+	** offset opt added to `NodePing.Results.get_results`
+	** Added events function `NodePing.Results.get_events`
+* Added module docs to the checktypes in `NodePing.Checktypes`
+
+=== Fixed
+
+* Some of the get functions in `NodePing.Checks` wouldn't return a tuple like one might expect with `:ok` or `:error`. This was fixed and the proper ! identifier functions were added.
+* `NodePing.Helpers.merge_querystrings` ignores `nil` values
+

@@ -1,4 +1,11 @@
 defmodule NodePing.Checktypes.Dns do
+  @moduledoc """
+  This check can do the following types of lookups: ANY, A, CNAME, MX, NS,
+  PTR, SOA, and TXT. The NodePing checks also let you optionally look for
+  specific information in the response sent back from the DNS server.
+
+  https://nodeping.com/dns_check.html
+  """
   defstruct [
     :target,
     label: "",

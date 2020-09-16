@@ -1,4 +1,12 @@
 defmodule NodePing.Checktypes.Ntp do
+  @moduledoc """
+  Use the NTP check when you want to monitor the uptime of your NTP servers or
+  to receive alerts when private servers become publically available, as in the
+  case of a failing firewall rule. The check can be configured to send you
+  notifications if it's able to get a response or if it's not able to get a response.
+
+  https://nodeping.com/ntp_check.html
+  """
   @enforce_keys [:target]
   defstruct [
     :target,

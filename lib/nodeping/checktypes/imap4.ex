@@ -1,4 +1,12 @@
 defmodule NodePing.Checktypes.Imap4 do
+  @moduledoc """
+  IMAP monitoring is an important part of an overall email availability
+  monitoring strategy. The checks can not only verify that your server is
+  providing IMAP email retrieval properly but that user logins and your
+  SSL/TLS certificates are also functioning properly.
+
+  https://nodeping.com/imap_check.html
+  """
   @enforce_keys [:target]
   defstruct [
     :target,

@@ -1,5 +1,10 @@
 defmodule NodePing.Checktypes.Push do
   @moduledoc """
+  PUSH checks allow you to send heartbeats and metrics from your servers
+  to NodePing. Use a PUSH check for things like monitoring your servers that
+  are behind firewalls, tracking CPU load on your Windows SQL servers, or
+  getting alerts before you run out of disk space on your web servers.
+
   fields = %{
     :apcupsd => %{
       :name => "apcupsd",
@@ -12,6 +17,8 @@ defmodule NodePing.Checktypes.Push do
       :max => 1
     }
   }
+
+  https://nodeping.com/push_check.html
   """
   defstruct [
     :target,

@@ -30,6 +30,7 @@ defmodule NodePing.Results do
   - `limit` - optional integer - number of records to retrieve. Defaults to 300 if span is not set.
   - `start` - date/time for the start of the results. Timestamps should be milliseconds, or an RFC2822 or ISO 8601 date
   - `end` - date/time for the end of the results.
+  - `offset` - integer offset to have the system perform uptime calculations for a different time zone.
   - `clean` - boolean sets whether to use the older format for the result record that includes a doc object. `true` strongly recommended
 
   ## Examples
@@ -67,6 +68,7 @@ defmodule NodePing.Results do
   - `limit` - optional integer - number of records to retrieve. Defaults to 300 if span is not set.
   - `start` - date/time for the start of the results. Timestamps should be milliseconds, or an RFC2822 or ISO 8601 date
   - `end` - date/time for the end of the results.
+  - `offset` - integer offset to have the system perform uptime calculations for a different time zone.
   - `clean` - boolean sets whether to use the older format for the result record that includes a doc object. `true` strongly recommended
 
   ## Examples
@@ -169,13 +171,81 @@ defmodule NodePing.Results do
   and disabled checks. If you need a list of all checks with their passing/failing state,
   please use the 'checks' list rather than this 'current' call.
 
-   ## Parameters
+  ## Parameters
 
   - `token` - NodePing API token that was provided with account
   - `customerid` - optional ID to access a subaccount
   """
   def current_events!(token, customerid \\ nil) do
     case NodePing.Results.current_events(token, customerid) do
+      {:ok, result} -> result
+      {:error, error} -> error
+    end
+  end
+
+  @doc """
+  Retrieves information about "events" for checks. Events include down events and disabled checks.
+
+  https://nodeping.com/docs-api-results.html#events
+
+  ## Parameters
+
+  - `token` - NodePing API token that was provided with account
+  - `id` - Check id of the check you want to get events for
+  - `opts` - Optional list of tuples to specify returned results
+
+  ## Opts
+
+  - `start` - Start date to retrieve events from a specific range of time.
+  - `end` - End date to retrieve events from a specific range of time.
+  - `limit` - limit for the number of records to retrieve.
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> checkid = "201205050153W2Q4C-0J2HSIRF"
+      iex> start = "2020-06"
+      iex> end = "2020-07"
+      iex> limit = 10
+      iex> opts = [{:start, start}, {:end, end}, {:limit, limit}]
+      iex> {:ok, results} = NodePing.Results.get_events(token, checkid, opts)
+  """
+  def get_events(token, checkid, opts \\ []) do
+    querystrings = Helpers.merge_querystrings([{:token, token}] ++ opts)
+
+    (@api_url <> "/results/events/#{checkid}" <> querystrings)
+    |> HttpRequests.get()
+  end
+
+  @doc """
+  Retrieves information about "events" for checks. Events include down events and disabled checks.
+
+  https://nodeping.com/docs-api-results.html#events
+
+  ## Parameters
+
+  - `token` - NodePing API token that was provided with account
+  - `id` - Check id of the check you want to get events for
+  - `opts` - Optional list of tuples to specify returned results
+
+  ## Opts
+
+  - `start` - Start date to retrieve events from a specific range of time.
+  - `end` - End date to retrieve events from a specific range of time.
+  - `limit` - limit for the number of records to retrieve.
+
+  ## Examples
+
+      iex> token = System.fetch_env!("TOKEN")
+      iex> checkid = "201205050153W2Q4C-0J2HSIRF"
+      iex> start = "2020-06"
+      iex> end = "2020-07"
+      iex> limit = 10
+      iex> opts = [{:start, start}, {:end, end}, {:limit, limit}]
+      iex> results = NodePing.Results.get_events!(token, checkid, opts)
+  """
+  def get_events!(token, checkid, opts \\ []) do
+    case get_events(token, checkid, opts) do
       {:ok, result} -> result
       {:error, error} -> error
     end

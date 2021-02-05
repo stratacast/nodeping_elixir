@@ -6,7 +6,20 @@ All notable changes to this project will be documented in this file.
 
 (Placeholder for unreleased content)
 
-== 2020-09-15 v1.2.0
+== 2021-02-04 v1.1.1
+
+=== Added
+
+* Added the new DoH/DoT checktype
+
+=== Fixed
+
+* Fixed some functions that had a default value of `nil` where it should have been an empty list
+  ** These `opt` names were changed to `opt` for clarity
+  ** Similar fix for `NodePing.Checks.disable_all_checks` by combining `customerid` into `opts`
+* Some clarity added to the docs (namely that `opts` is a list of tuples)
+
+== 2020-09-15 v1.1.0
 
 === Added
 

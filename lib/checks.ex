@@ -19,7 +19,7 @@ defmodule NodePing.Checks do
   - `token` - NodePing API token that is provided with account
   - `opts` - Optional list of tuples to specify results.
 
-  ## Opts
+  ## Opts - list of tuples
 
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
@@ -45,7 +45,7 @@ defmodule NodePing.Checks do
   - `token` - NodePing API token that is provided with account
   - `opts` - Optional list of tuples to specify results.
 
-  ## Opts
+  ## Opts - list of tuples
 
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
@@ -72,7 +72,7 @@ defmodule NodePing.Checks do
   - `checkids` - list of checkids that will be queried
   - `opts` - Optional list of tuples to specify results
 
-  ## Opts
+  ## Opts - list of tuples
 
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present, the checks uptimes wilwl be added to the response
@@ -100,7 +100,7 @@ defmodule NodePing.Checks do
   - `checkids` - list of checkids that will be queried
   - `opts` - Optional list of tuples to specify results
 
-  ## Opts
+  ## Opts - list of tuples
 
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present, the checks uptimes wilwl be added to the response
@@ -126,7 +126,7 @@ defmodule NodePing.Checks do
    - `token` - NodePing API token that is provided with account
    - `opts` - Optional list of tuples to specify results
 
-   ## Opts
+   ## Opts - list of tuples
 
    - `customerid` - optional ID to access a subaccount
    - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
@@ -137,8 +137,6 @@ defmodule NodePing.Checks do
       iex> passing_checks = NodePing.Checks.get_passing_checks(token, [{:uptime, true}])
   """
   def get_passing_checks(token, opts \\ []) do
-    # {:ok, result} = get_checks(token, opts)
-    # Enum.filter(result, fn {_k, v} -> v["state"] == 1 end)
     case get_checks(token, opts) do
       {:ok, result} -> {:ok, Enum.filter(result, fn {_k, v} -> v["state"] == 1 end)}
       {:error, error} -> error
@@ -153,7 +151,7 @@ defmodule NodePing.Checks do
    - `token` - NodePing API token that is provided with account
    - `opts` - Optional list of tuples to specify results
 
-   ## Opts
+   ## Opts - list of tuples
 
    - `customerid` - optional ID to access a subaccount
    - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
@@ -178,7 +176,7 @@ defmodule NodePing.Checks do
   - `token` - NodePing API token that is provided with account
   - `opts` - Optional list of tuples to specify results
 
-  ## Opts
+  ## Opts - list of tuples
 
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
@@ -203,7 +201,7 @@ defmodule NodePing.Checks do
   - `token` - NodePing API token that is provided with account
   - `opts` - Optional list of tuples to specify results
 
-  ## Opts
+  ## Opts - list of tuples
 
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
@@ -228,7 +226,7 @@ defmodule NodePing.Checks do
   - `token` - NodePing API token that is provided with account
   - `opts` - Optional list of tuples to specify results
 
-  ## Opts
+  ## Opts - list of tuples
 
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
@@ -249,7 +247,7 @@ defmodule NodePing.Checks do
   - `token` - NodePing API token that is provided with account
   - `opts` - Optional list of tuples to specify results
 
-  ## Opts
+  ## Opts - list of tuples
 
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
@@ -271,7 +269,7 @@ defmodule NodePing.Checks do
   - `id` - Check ID of the check you want to fetch the last result for
   - `opts` - Optional list of tuples to specify results
 
-  ## Opts
+  ## Opts - list of tuples
 
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
@@ -292,13 +290,13 @@ defmodule NodePing.Checks do
   - `id` - Check ID of the check you want to fetch the last result for
   - `opts` - Optional list of tuples to specify results
 
-  ## Opts
+  ## Opts - list of tuples
 
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
   """
-  def get_last_result!(token, id, customerid \\ nil) do
-    case get_last_result(token, id, customerid) do
+  def get_last_result!(token, id, opts \\ []) do
+    case get_last_result(token, id, opts) do
       {:ok, result} -> result
       {:error, error} -> error
     end
@@ -313,7 +311,7 @@ defmodule NodePing.Checks do
   - `id` - Check ID of the check you want to fetch information about
   - `opts` - Optional list of tuples to specify results
 
-  ## Opts
+  ## Opts - list of tuples
 
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
@@ -334,13 +332,13 @@ defmodule NodePing.Checks do
    - `id` - Check ID of the check you want to fetch information about
    - `opts` - Optional list of tuples to specify results
 
-   ## Opts
+   ## Opts - list of tuples
 
    - `customerid` - optional ID to access a subaccount
    - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
   """
-  def get_by_id!(token, id, customerid \\ nil) do
-    case get_by_id(token, id, customerid) do
+  def get_by_id!(token, id, opts \\ []) do
+    case get_by_id(token, id, opts) do
       {:ok, result} -> result
       {:error, error} -> error
     end
@@ -382,7 +380,7 @@ defmodule NodePing.Checks do
   - `customerid` - optional ID to access a subaccount
   """
   def check_exists?(token, id, customerid \\ nil) do
-    {:ok, result} = get_by_id(token, id, customerid)
+    {:ok, result} = get_by_id(token, id, [{:customerid, customerid}])
 
     case result do
       %{"error" => _x} -> false
@@ -571,16 +569,16 @@ defmodule NodePing.Checks do
   - `id` - the check ID that you want to delete
   - `customerid` - optional ID to access a subaccount
   - `disableall` - boolean value. true = disable all, false = re-enable those checks
-  - `opts` - a keyword list with keys of `:type`, `:label`, `:target` as possible options
+  - `opts` - a keyword list with keys of `:type`, `:label`, `:target`, `:customerid` as possible options
 
   ## Examples
       iex> opts = [{:type, "PING"}, {:target, "example.com"}]
       iex> disableall = true
       iex> {:ok, result} = NodePing.Checks.disable_all_checks(token, disableall, opts)
   """
-  def disable_all_checks(token, disableall, opts \\ [], customerid \\ nil) do
+  def disable_all_checks(token, disableall, opts \\ []) do
     querystrings =
-      Helpers.add_cust_id([{:token, token}] ++ opts ++ [{:disableall, disableall}], customerid)
+      Helpers.add_cust_id([{:token, token}] ++ opts ++ [{:disableall, disableall}])
       |> Helpers.merge_querystrings()
       |> URI.encode()
 
@@ -597,15 +595,15 @@ defmodule NodePing.Checks do
   - `id` - the check ID that you want to delete
   - `customerid` - optional ID to access a subaccount
   - `disableall` - boolean value. true = disable all, false = re-enable those checks
-  - `opts` - a keyword list with keys of `:type`, `:label`, `:target` as possible options
+  - `opts` - a keyword list with keys of `:type`, `:label`, `:target`, `:customerid` as possible options
 
   ## Examples
       iex> opts = [{:type, "PING"}, {:target, "example.com"}]
       iex> disableall = true
       iex> result = NodePing.Checks.disable_all_checks!(token, disableall, opts)
   """
-  def disable_all_checks!(token, disableall, opts \\ [], customerid \\ nil) do
-    case NodePing.Checks.disable_all_checks(token, disableall, opts, customerid) do
+  def disable_all_checks!(token, disableall, opts \\ []) do
+    case NodePing.Checks.disable_all_checks(token, disableall, opts) do
       {:ok, result} -> result
       {:error, error} -> error
     end

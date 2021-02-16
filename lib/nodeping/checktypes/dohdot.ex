@@ -21,6 +21,7 @@ defmodule NodePing.Checktypes.DohDot do
     dnstype: "A",
     contentstring: "",
     edns: %{},
+    ipv6: false,
     interval: 15,
     enabled: false,
     public: false,

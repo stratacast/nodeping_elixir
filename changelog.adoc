@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file.
 
 (Placeholder for unreleased content)
 
+== 2021-02-16 v1.1.2
+
+=== Added
+
+* `ipv6` flag for DoH/DoT checktype
+
 == 2021-02-04 v1.1.1
 
 === Added

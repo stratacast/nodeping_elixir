@@ -578,7 +578,7 @@ defmodule NodePing.Checks do
   """
   def disable_all_checks(token, disableall, opts \\ []) do
     querystrings =
-      opts ++ [{:token, token}, {:disableall, disableall}]
+      (opts ++ [{:token, token}, {:disableall, disableall}])
       |> Helpers.merge_querystrings()
       |> URI.encode()
 

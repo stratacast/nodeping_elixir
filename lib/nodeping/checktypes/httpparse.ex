@@ -14,6 +14,7 @@ defmodule NodePing.Checktypes.HttpParse do
     label: "",
     type: "HTTPPARSE",
     fields: %{},
+    sendheaders: %{},
     interval: 15,
     enabled: false,
     public: false,

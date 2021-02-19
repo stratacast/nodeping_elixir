@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file.
 
 (Placeholder for unreleased content)
 
+== 2021-02-19 v1.1.3
+
+=== Added
+
+* `sendheaders` optional argument for `NodePing.Checks.HttpParse` checktype
+
 == 2021-02-16 v1.1.2
 
 === Added

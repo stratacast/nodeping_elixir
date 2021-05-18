@@ -4,7 +4,7 @@ defmodule NodePing.MixProject do
   def project do
     [
       app: :nodeping,
-      version: "1.1.3",
+      version: "1.1.4",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       description: description(),
@@ -28,7 +28,7 @@ defmodule NodePing.MixProject do
       {:httpoison, "~> 1.7"},
       {:jason, "~> 1.2"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-      {:credo, "~> 1.4", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
     ]
   end
 

@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file.
 
 (Placeholder for unreleased content)
 
+== 2021-05-18 v1.1.4
+
+=== Added
+
+* `dnssection argument added to `NodePing.Checks.Dns` checktype with a default value of "answer"
+
 == 2021-02-19 v1.1.3
 
 === Added

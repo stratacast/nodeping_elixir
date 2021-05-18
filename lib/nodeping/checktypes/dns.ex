@@ -15,6 +15,7 @@ defmodule NodePing.Checktypes.Dns do
     dnstype: "A",
     dnsrd: 1,
     verify: false,
+    dnssection: "answer",
     contentstring: nil,
     dnstoresolve: nil,
     interval: 15,

@@ -8,6 +8,7 @@ defmodule NodePing.Checktypes.Snmp do
   """
   @enforce_keys [:target]
   defstruct [
+    :target,
     :token,
     label: "",
     type: "SNMP",

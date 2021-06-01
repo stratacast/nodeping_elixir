@@ -4,8 +4,8 @@ defmodule NodePing.MixProject do
   def project do
     [
       app: :nodeping,
-      version: "1.1.4",
-      elixir: "~> 1.9",
+      version: "1.2.0",
+      elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       description: description(),
       package: package(),
@@ -25,7 +25,7 @@ defmodule NodePing.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 1.7"},
+      {:httpoison, "~> 1.8"},
       {:jason, "~> 1.2"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false}

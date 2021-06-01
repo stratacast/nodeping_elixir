@@ -13,10 +13,12 @@ The package can be installed by adding `nodeping` to your list of dependencies i
 ----
 def deps do
   [
-    {:nodeping, "~> 1.1"}
+    {:nodeping, "~> 1.2"}
   ]
 end
 ----
+
+NOTE: If you want to use this package with Elixir version 1.9, instead set your dep to `{:nodeping, "~> 1.1"}`
 
 And run `mix deps.get`.
 

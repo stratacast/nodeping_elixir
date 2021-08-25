@@ -424,6 +424,7 @@ defmodule NodePing.Checks do
     Enum.filter(args, fn {k, _v} -> Enum.member?(accepted_user_keys, k) end)
     |> Map.new()
     |> (&Map.merge(default_fields, &1)).()
+    |> Enum.filter(fn {_k, v} -> is_nil(v) == false end)
     |> Map.new()
     |> (&HttpRequests.post(@api_url <> "/checks" <> querystrings, &1)).()
   end

@@ -6,6 +6,16 @@ All notable changes to this project will be documented in this file.
 
 (Placeholder for unreleased content)
 
+== 2021-08-25 v1.2.1
+
+=== Added
+
+* Support for autodiag by setting `:autodiag => true` in your check args
+
+=== Fixed
+
+* Increase timeout for diagnostics to 60 seconds from the default 5 seconds so the diagnostic doesn't timeout each time.
+
 == 2021-06-01 v1.2.0
 
 === Added

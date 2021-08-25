@@ -11,6 +11,7 @@ defmodule NodePing.Checktypes.Pop3 do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "POP3",
     port: 110,
     verify: true,

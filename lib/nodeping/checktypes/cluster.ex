@@ -10,6 +10,7 @@ defmodule NodePing.Checktypes.Cluster do
   defstruct label: "",
             data: [],
             type: "CLUSTER",
+            autodiag: false,
             interval: 15,
             enabled: false,
             public: false,

@@ -13,6 +13,7 @@ defmodule NodePing.Checktypes.Websocket do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "WEBSOCKET",
     invert: false,
     contentstring: nil,

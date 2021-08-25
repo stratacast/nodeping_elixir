@@ -12,6 +12,7 @@ defmodule NodePing.Checktypes.Port do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "PORT",
     port: nil,
     interval: 15,

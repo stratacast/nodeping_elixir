@@ -11,6 +11,7 @@ defmodule NodePing.Checktypes.Snmp do
     :target,
     :token,
     label: "",
+    autodiag: false,
     type: "SNMP",
     port: 161,
     fields: %{},

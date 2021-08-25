@@ -12,6 +12,7 @@ defmodule NodePing.Checktypes.Audio do
     label: "",
     type: "AUDIO",
     verifyvolume: false,
+    autodiag: false,
     volumemin: -45,
     interval: 15,
     enabled: false,

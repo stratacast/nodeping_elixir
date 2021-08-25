@@ -12,6 +12,7 @@ defmodule NodePing.Checktypes.Smtp do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "SMTP",
     invert: false,
     port: 25,

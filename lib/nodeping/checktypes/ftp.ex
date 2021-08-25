@@ -10,6 +10,7 @@ defmodule NodePing.Checktypes.Ftp do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "FTP",
     port: 21,
     username: nil,

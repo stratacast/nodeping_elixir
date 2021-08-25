@@ -11,6 +11,7 @@ defmodule NodePing.Checktypes.Imap4 do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "IMAP4",
     port: 143,
     verify: true,

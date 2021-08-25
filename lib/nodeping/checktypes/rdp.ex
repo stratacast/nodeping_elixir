@@ -6,6 +6,7 @@ defmodule NodePing.Checktypes.Rdp do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "RDP",
     interval: 15,
     enabled: false,

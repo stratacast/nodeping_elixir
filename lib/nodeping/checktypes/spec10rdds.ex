@@ -15,6 +15,7 @@ defmodule NodePing.Checktypes.Spec10Rdds do
     :target,
     :data,
     label: "",
+    autodiag: false,
     type: "SPEC10RDDS",
     interval: 15,
     enabled: false,

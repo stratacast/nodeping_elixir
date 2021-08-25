@@ -6,6 +6,7 @@ defmodule NodePing.Checktypes.Mysql do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "MYSQL",
     interval: 15,
     enabled: false,

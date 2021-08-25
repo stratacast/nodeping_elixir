@@ -12,6 +12,7 @@ defmodule NodePing.Checktypes.Ssl do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "SSL",
     warningdays: nil,
     servername: nil,

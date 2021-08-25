@@ -11,6 +11,7 @@ defmodule NodePing.Checktypes.Agent do
   defstruct label: "",
             type: "AGENT",
             oldresultsfail: false,
+            autodiag: false,
             interval: 1,
             enabled: false,
             public: false,

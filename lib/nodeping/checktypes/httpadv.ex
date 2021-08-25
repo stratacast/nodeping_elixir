@@ -10,6 +10,7 @@ defmodule NodePing.Checktypes.HttpAdv do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "HTTPADV",
     invert: false,
     contentstring: nil,

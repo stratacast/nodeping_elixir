@@ -11,6 +11,7 @@ defmodule NodePing.Checktypes.Ntp do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "NTP",
     port: 123,
     ipv6: false,

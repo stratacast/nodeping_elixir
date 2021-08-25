@@ -10,6 +10,7 @@ defmodule NodePing.Checktypes.Rbl do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "RBL",
     ignore: nil,
     interval: 15,

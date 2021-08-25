@@ -10,6 +10,7 @@ defmodule NodePing.Checktypes.Http do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "HTTP",
     ipv6: false,
     follow: false,

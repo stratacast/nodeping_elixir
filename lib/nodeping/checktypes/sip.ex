@@ -13,6 +13,7 @@ defmodule NodePing.Checktypes.Sip do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "SIP",
     interval: 15,
     enabled: false,

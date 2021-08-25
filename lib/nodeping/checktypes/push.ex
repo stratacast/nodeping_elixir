@@ -23,6 +23,7 @@ defmodule NodePing.Checktypes.Push do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "PUSH",
     fields: %{},
     interval: 15,

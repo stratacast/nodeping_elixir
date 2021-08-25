@@ -10,6 +10,7 @@ defmodule NodePing.Checktypes.HttpContent do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "HTTPCONTENT",
     invert: false,
     contentstring: nil,

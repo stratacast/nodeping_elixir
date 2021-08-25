@@ -11,6 +11,7 @@ defmodule NodePing.Checktypes.DohDot do
     :target,
     :dnstoresolve,
     label: "",
+    autodiag: false,
     type: "DOHDOT",
     dohdot: "doh",
     method: "GET",

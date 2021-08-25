@@ -11,6 +11,7 @@ defmodule NodePing.Checktypes.Ping do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "PING",
     ipv6: false,
     interval: 15,

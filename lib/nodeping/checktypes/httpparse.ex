@@ -12,6 +12,7 @@ defmodule NodePing.Checktypes.HttpParse do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "HTTPPARSE",
     fields: %{},
     sendheaders: %{},

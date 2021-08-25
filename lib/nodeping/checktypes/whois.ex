@@ -11,6 +11,7 @@ defmodule NodePing.Checktypes.Whois do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "WHOIS",
     ipv6: false,
     invert: false,

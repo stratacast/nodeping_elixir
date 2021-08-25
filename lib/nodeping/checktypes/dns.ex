@@ -11,6 +11,7 @@ defmodule NodePing.Checktypes.Dns do
     label: "",
     type: "DNS",
     port: 53,
+    autodiag: false,
     transport: "udp",
     dnstype: "A",
     dnsrd: 1,

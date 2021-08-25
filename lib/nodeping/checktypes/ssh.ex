@@ -11,6 +11,7 @@ defmodule NodePing.Checktypes.Ssh do
   defstruct [
     :target,
     label: "",
+    autodiag: false,
     type: "SSH",
     invert: false,
     contentstring: nil,

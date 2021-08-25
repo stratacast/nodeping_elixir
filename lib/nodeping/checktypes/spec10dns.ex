@@ -14,6 +14,7 @@ defmodule NodePing.Checktypes.Spec10Dns do
     :target,
     :data,
     label: "",
+    autodiag: false,
     type: "SPEC10DNS",
     interval: 15,
     enabled: false,

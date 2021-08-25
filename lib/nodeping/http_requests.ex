@@ -3,8 +3,14 @@ defmodule NodePing.HttpRequests do
   GET/POST/PUT/DELETE functions for interfacing with the NodePing API
   """
 
+  @default_timeout 5_000
+
   def get(url) do
-    case HTTPoison.get(url) do
+    get(url, @default_timeout)
+  end
+
+  def get(url, timeout) do
+    case HTTPoison.get(url, [], timeout: timeout, recv_timeout: timeout) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, Jason.decode!(body)}
 

@@ -13,6 +13,7 @@ defmodule NodePing.Diagnostics do
   import NodePing.HttpRequests
 
   @api_url "https://api.nodeping.com/api/1"
+  @default_timeout 60_000
 
   @doc """
   Get diagnostic information from a probe or agent
@@ -48,6 +49,6 @@ defmodule NodePing.Diagnostics do
     |> Map.to_list()
     |> merge_querystrings()
     |> (fn x -> @api_url <> "/diagnostics/#{checkid}" <> x end).()
-    |> get()
+    |> get(@default_timeout)
   end
 end

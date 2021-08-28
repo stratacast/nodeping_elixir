@@ -5,6 +5,7 @@ defmodule NodePing.Accounts.UpdateAccount do
 
   defstruct name: nil,
             timezone: nil,
+            autodiagnotifications: false,
             location: nil,
             emailme: nil,
             status: nil

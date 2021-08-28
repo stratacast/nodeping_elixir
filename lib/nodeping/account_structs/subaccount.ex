@@ -6,6 +6,7 @@ defmodule NodePing.Accounts.SubAccount do
   @enforce_keys [:contactname, :email, :timezone, :location]
   defstruct name: nil,
             contactname: nil,
+            autodiagnotifications: false,
             email: nil,
             timezone: nil,
             location: nil,

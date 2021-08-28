@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file.
 
 (Placeholder for unreleased content)
 
+== 2021-08-25 v1.2.2
+
+=== Added
+
+Added the `autodiagnotifications` option to account creation and updates, defaulting
+to `false`.
+
 == 2021-08-25 v1.2.1
 
 === Added

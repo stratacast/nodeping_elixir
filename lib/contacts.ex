@@ -250,6 +250,114 @@ defmodule NodePing.Contacts do
   end
 
   @doc """
+  Mute a contact method for a specified durtion in seconds.
+  Note that the contact has to be the ID in the "addresses" portion
+  of a contact.
+
+  NOTE: This makes a GET request to the API before doing a PUT
+
+  ## Parameters
+
+  - `token` - NodePing API token that was provided with account
+  - `id` - the ID for the contact method you want to mute
+  - `duration` - time to mute the contact method in seconds
+  - `customerid` - optional ID to access a subaccount
+  """
+  def mute_contact_method(token, id, duration, customerid \\ nil) do
+    contacts = get_all!(token, customerid)
+
+    {contact_id, addresses} =
+      contacts
+      |> Enum.find(fn {_, v} -> get_in(v, ["addresses", id]) != nil end)
+
+    mute_time =
+      DateTime.utc_now()
+      |> DateTime.add(duration, :second)
+      |> DateTime.to_unix(:millisecond)
+
+    muted =
+      addresses
+      |> get_in(["addresses", id])
+      |> Map.update("mute", mute_time, fn _x -> mute_time end)
+
+    new_addresses =
+      addresses
+      |> Map.get("addresses")
+      |> Map.replace(id, muted)
+
+    NodePing.Contacts.update_contact!(token, contact_id, %{addresses: new_addresses}, customerid)
+  end
+
+  @doc """
+  Mute a contact method for a specified durtion in seconds.
+  Note that the contact has to be the ID in the "addresses" portion
+  of a contact.
+
+  NOTE: This makes a GET request to the API before doing a PUT
+
+  ## Parameters
+
+  - `token` - NodePing API token that was provided with account
+  - `id` - the ID for the contact method you want to mute
+  - `duration` - time to mute the contact method in seconds
+  - `customerid` - optional ID to access a subaccount
+  """
+  def mute_contact_method!(token, id, duration, customerid \\ nil) do
+    case mute_contact_method(token, id, duration, customerid) do
+      {:ok, result} -> result
+      {:error, error} -> error
+    end
+  end
+
+  @doc """
+  Mute an entire contact for a specified duration in seconds.
+  Note that the contact has to be the ID (or _id) of the contact.
+
+  NOTE: This makes a GET request to the API before doing a PUT
+
+  ## Parameters
+
+  - `token` - NodePing API token that was provided with account
+  - `id` - the ID for the contact you want to mute
+  - `duration` - time to mute the contact method in seconds
+  - `customerid` - optional ID to access a subaccount
+  """
+  def mute_contact(token, id, duration, customerid \\ nil) do
+    mute_time =
+      DateTime.utc_now()
+      |> DateTime.add(duration, :second)
+      |> DateTime.to_unix(:millisecond)
+
+    addresses =
+      get_by_id!(token, id, customerid)
+      |> Map.get("addresses")
+      |> Enum.map(fn {k, v} -> {k, Map.update(v, "mute", mute_time, fn _x -> mute_time end)} end)
+      |> Enum.into(%{})
+
+    NodePing.Contacts.update_contact!(token, id, %{addresses: addresses}, customerid)
+  end
+  @doc """
+
+  Mute an entire contact for a specified duration in seconds.
+  Note that the contact has to be the ID (or _id) of the contact.
+
+  NOTE: This makes a GET request to the API before doing a PUT
+
+  ## Parameters
+
+  - `token` - NodePing API token that was provided with account
+  - `id` - the ID for the contact you want to mute
+  - `duration` - time to mute the contact method in seconds
+  - `customerid` - optional ID to access a subaccount
+  """
+  def mute_contact!(token, id, duration, customerid \\ nil) do
+    case mute_contact(token, id, duration, customerid) do
+      {:ok, result} -> result
+      {:error, error} -> error
+    end
+  end
+
+  @doc """
   Reset the password for a contact. The password will be emailed to
   the contact's email address.
   """

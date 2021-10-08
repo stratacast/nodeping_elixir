@@ -92,3 +92,89 @@ target = "8.8.8.8"
 args = %{label: "my label", target: target, interval: 1, enabled: true}
 {:ok, result} = NodePing.Checks.create_check(token, checktype, args)
 ----
+
+== Contacts
+
+Creating contacts are done with the `NodePing.Contacts` module. You can find the structure of a
+contact defined in the `NodePing.Contacts.Contact` module.
+
+=== Create a Contact
+
+How to create a contact with both an email and sms address:
+
+[source,elixir]
+----
+token = System.fetch_env!("TOKEN")
+name = testcontact
+addresses = [
+  %{address: "1234567890", type: "sms", name: "cellphone"},
+  %{address: "me@example.com", type: "email", name: "workemail"}
+]
+role = "owner"
+args = %{name: name, newaddresses: addresses, custrole: role}
+{:ok, result} = NodePing.Contacts.create_contact(token, args)
+----
+
+=== Update a Contact
+
+Updating a contact requires having all the information of the existing conact. If a contact
+has contact methods "A", "B", and "C" and you only provide "A", and "B", then you won't have
+contact method "C" anymore. This means it's probably best to get existing contact information
+to modify it. The below example gets contacts containing email addresses "me@example.com"
+and replacing them with "email@example.com"
+
+[source,elixir]
+----
+token = System.fetch_env!("TOKEN")
+contact_id = "201205050153W2Q4C-BKPGH"
+old_email = "me@example.com"
+new_email = "email@example.com"
+{:ok, contact} = NodePing.Contats.get_by_id(token, contact_id)
+
+{id, opts}
+Map.get(contact, "addresses")
+|> Enum.find(fn {_, val} -> val["address"] == old_email end)
+
+new_opts =
+  opts
+  |> Map.replace("address", new_email)
+  |> Map.drop(["_id", "customer_id", "sdomain", "type"])
+
+{_, new_contact} = get_and_update_in(contact, ["addresses", id, "address"], &{&1, "email@example.com"})
+updated_addresses = Map.get(new_contact, "addresses")
+
+{:ok, updated} = NodePing.Contacts.update_contact(token, contact_id, %{addresses: updated_addresses})
+----
+
+=== Mute a Contact
+
+Muting a contact is going to be almost identical to the Update a Contact section, except instead of
+replacing a value, we are going to have to update the map. It's possible the `mute` key might not exist
+in the contact, so using `Map.update/4` is going to be necessary to set a default value in case the
+key does not exist. Muting a contact is usually done with a timestamp of when you want the muting to _STOP_
+with a millisecond Unix timestamp
+
+[source,elixir]
+----
+token = System.fetch_env!("TOKEN")
+parent_contact_id = "201205050153W2Q4C-BKPGH"
+contact_id = "IRAB6O5W"
+{:ok, contact} = NodePing.Contats.get_by_id(token, parent_contact_id)
+
+five_min_later =
+  DateTime.utc_now()
+  |> DateTime.add(300, :second)
+  |> DateTime.to_unix(:millisecond)
+
+muted =
+  contact
+  |> get_in(["addresses", contact_id])
+  |> Map.update("mute", five_min_later, fn _x -> five_min_later end)
+
+new_addresses =
+  contact
+  |> Map.get("addresses")
+  |> Map.replace(contact_id, muted)
+
+{:ok, updated} = NodePing.Contacts.update_contact(token, parent_contact_id, %{addresses: updated_addresses})
+----

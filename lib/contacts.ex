@@ -150,12 +150,13 @@ defmodule NodePing.Contacts do
   ## Parameters
 
   - `token` - NodePing API token that was provided with account
+  - `id` - The contact id
   - `args` - Arguments for creating a NodePing contact
   - `customerid` - optional ID to access a subaccount
 
   ## Examples
 
-      iex> existing_contacts =
+      iex> updated_contact =
            %{
              "A775GC26" => %{
                address: "me@example.com",
@@ -163,6 +164,7 @@ defmodule NodePing.Contacts do
                type: "email"
              }
            }
+      iex> {:ok, updated} = NodePing.Contacts.update_contact(token, id, %{addresses: updated_contact})
   """
   def update_contact(token, id, args, customerid \\ nil) do
     querystrings =
@@ -170,6 +172,7 @@ defmodule NodePing.Contacts do
       |> merge_querystrings()
 
     combine_map_struct(NodePing.Contacts.Contact, args)
+    |> Map.drop([:newaddresses])
     |> (&put(@api_url <> "/contacts/#{id}" <> querystrings, &1)).()
   end
 
@@ -187,12 +190,12 @@ defmodule NodePing.Contacts do
   ## Parameters
 
   - `token` - NodePing API token that was provided with account
+  - `id` - The contact id
   - `args` - Arguments for creating a NodePing contact
   - `customerid` - optional ID to access a subaccount
 
   ## Examples
 
-  iex> existing_contacts =
       iex> existing_contacts =
            %{
              "A775GC26" => %{
@@ -201,6 +204,7 @@ defmodule NodePing.Contacts do
                type: "email"
              }
            }
+      iex> updated = NodePing.Contacts.update_contact!(token, id, %{addresses: updated_contact})
   """
   def update_contact!(token, id, args, customerid \\ nil) do
     case update_contact(token, id, args, customerid) do

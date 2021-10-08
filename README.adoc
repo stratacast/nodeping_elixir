@@ -93,6 +93,26 @@ args = %{label: "my label", target: target, interval: 1, enabled: true}
 {:ok, result} = NodePing.Checks.create_check(token, checktype, args)
 ----
 
+==== PUSH Check Fields
+
+When creating a variable for the fields for the PUSH check, the value should be formatted as such:
+
+[source,elixir]
+----
+fields = %{
+  :apcupsd => %{
+    :name => "apcupsd",
+    :min => 1,
+    :max => 1
+  },
+  :load1min => %{
+    :name => "load1min",
+    :min => 1,
+    :max => 1
+  }
+}
+----
+
 == Contacts
 
 Creating contacts are done with the `NodePing.Contacts` module. You can find the structure of a
@@ -129,7 +149,7 @@ token = System.fetch_env!("TOKEN")
 contact_id = "201205050153W2Q4C-BKPGH"
 old_email = "me@example.com"
 new_email = "email@example.com"
-{:ok, contact} = NodePing.Contats.get_by_id(token, contact_id)
+{:ok, contact} = NodePing.Contacts.get_by_id(token, contact_id)
 
 {id, opts}
 Map.get(contact, "addresses")
@@ -159,7 +179,7 @@ with a millisecond Unix timestamp
 token = System.fetch_env!("TOKEN")
 parent_contact_id = "201205050153W2Q4C-BKPGH"
 contact_id = "IRAB6O5W"
-{:ok, contact} = NodePing.Contats.get_by_id(token, parent_contact_id)
+{:ok, contact} = NodePing.Contacts.get_by_id(token, parent_contact_id)
 
 five_min_later =
   DateTime.utc_now()
@@ -176,5 +196,5 @@ new_addresses =
   |> Map.get("addresses")
   |> Map.replace(contact_id, muted)
 
-{:ok, updated} = NodePing.Contacts.update_contact(token, parent_contact_id, %{addresses: updated_addresses})
+{:ok, updated} = NodePing.Contacts.update_contact(token, parent_contact_id, %{addresses: new_addresses})
 ----

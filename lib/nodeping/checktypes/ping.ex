@@ -1,12 +1,6 @@
 defmodule NodePing.Checktypes.Ping do
-  @moduledoc """
-  You should use pings when you are checking availability of network devices
-  like routers, and checking if a server is up independent of other services
-  that are running on it. In some situations pings are preferable to HTTP checks
-  because HTTP checks might appear in some statistics systems as hits on the web site.
+  @moduledoc false
 
-  https://nodeping.com/ping_check.html
-  """
   @enforce_keys [:target]
   defstruct [
     :target,

@@ -1,7 +1,5 @@
 defmodule NodePing.Accounts.SubAccount do
-  @moduledoc """
-  Struct for creating a NodePing subaccount
-  """
+  @moduledoc false
 
   @enforce_keys [:contactname, :email, :timezone, :location]
   defstruct name: nil,

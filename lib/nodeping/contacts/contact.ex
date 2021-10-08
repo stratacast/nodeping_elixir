@@ -1,7 +1,6 @@
 defmodule NodePing.Contacts.Contact do
-  @moduledoc """
-  Struct for defining variables when creating a contact
-  """
+  @moduledoc false
+
   defstruct name: nil,
             addresses: [],
             newaddresses: [],

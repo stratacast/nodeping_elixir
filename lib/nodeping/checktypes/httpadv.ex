@@ -1,11 +1,6 @@
 defmodule NodePing.Checktypes.HttpAdv do
-  @moduledoc """
-  HTTP Advanced Checks are very similar to HTTP and HTTP Content checks,
-  except that HTTP Advanced checks provide additional features for those
-  who need more granular control of either the request or the response verification.
+  @moduledoc false
 
-  https://nodeping.com/http_advanced_check.html
-  """
   @enforce_keys [:target]
   defstruct [
     :target,

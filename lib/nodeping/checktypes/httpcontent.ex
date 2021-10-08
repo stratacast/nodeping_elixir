@@ -1,11 +1,6 @@
 defmodule NodePing.Checktypes.HttpContent do
-  @moduledoc """
-  HTTP Content Checks are very similar to HTTP Checks, except that HTTP
-  Content checks look for a specific word (string) in the data returned
-  in the response in addition to checking the status code and response time.
+  @moduledoc false
 
-  https://nodeping.com/http_content_check.html
-  """
   @enforce_keys [:target]
   defstruct [
     :target,

@@ -1,7 +1,5 @@
 defmodule NodePing.Accounts.UpdateAccount do
-  @moduledoc """
-  Struct for updating a Nodeping account or subaccount
-  """
+  @moduledoc false
 
   defstruct name: nil,
             timezone: nil,

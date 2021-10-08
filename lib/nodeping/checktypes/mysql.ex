@@ -1,7 +1,6 @@
 defmodule NodePing.Checktypes.Mysql do
-  @moduledoc """
-  Monitor the availability of a MySQL server
-  """
+  @moduledoc false
+
   @enforce_keys [:target]
   defstruct [
     :target,

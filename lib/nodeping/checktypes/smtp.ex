@@ -1,13 +1,6 @@
 defmodule NodePing.Checktypes.Smtp do
-  @moduledoc """
-  NodePing's SMTP checks are an important part of an overall server monitoring
-  strategy. The checks can not only verify that your server is accepting email
-  properly but that user logins and your SSL/TLS certificates are also
-  functioning properly. You can check to make sure that your SMTP server
-  is not an open relay.
+  @moduledoc false
 
-  https://nodeping.com/smtp_check.html
-  """
   @enforce_keys [:target]
   defstruct [
     :target,

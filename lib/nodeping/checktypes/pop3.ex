@@ -1,12 +1,6 @@
 defmodule NodePing.Checktypes.Pop3 do
-  @moduledoc """
-  POP monitoring is an important part of an overall email availability
-  monitoring strategy. The checks can not only verify that your server
-  is providing POP email retrieval properly but that user logins and your
-  SSL/TLS certificates are also functioning properly.
+  @moduledoc false
 
-  https://nodeping.com/pop_check.html
-  """
   @enforce_keys [:target]
   defstruct [
     :target,

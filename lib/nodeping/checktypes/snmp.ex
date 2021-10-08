@@ -1,11 +1,6 @@
 defmodule NodePing.Checktypes.Snmp do
-  @moduledoc """
-  NodePing's SNMP checks support SNMPv1 and SNMPv2c and can track and alert
-  on numeric OID return values, comparing them to a range. If the return value
-  is less than or greater than your configured range, the check will fail and alerts will be sent.
+  @moduledoc false
 
-  https://nodeping.com/snmp_check.html
-  """
   @enforce_keys [:target]
   defstruct [
     :target,

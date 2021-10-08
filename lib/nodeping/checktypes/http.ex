@@ -1,11 +1,6 @@
 defmodule NodePing.Checktypes.Http do
-  @moduledoc """
-  You should use HTTP checks anytime you want to know if a web page is up and
-  responding normally. However, HTTP checks just look at the status of the
-  response, not at the actual content of what is returned.
+  @moduledoc false
 
-  https://nodeping.com/http_check.html
-  """
   @enforce_keys [:target]
   defstruct [
     :target,

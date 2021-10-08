@@ -1,7 +1,6 @@
 defmodule NodePing.Checktypes.Rdp do
-  @moduledoc """
-  Monitor an RDP service to see if it is accessible
-  """
+  @moduledoc false
+
   @enforce_keys [:target]
   defstruct [
     :target,

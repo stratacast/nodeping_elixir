@@ -1,12 +1,6 @@
 defmodule NodePing.Checktypes.Ssh do
-  @moduledoc """
-  NodePing's SSH checks can be used to ensure the availability of your SSH services.
-  In addition, the check can be configured with optional response string matching
-  that, when used in conjunction with a login script, can provide notifications
-  for things like CPU utilization, memory availability, or disk usage.
+  @moduledoc false
 
-  https://nodeping.com/ssh_check.html
-  """
   @enforce_keys [:target]
   defstruct [
     :target,

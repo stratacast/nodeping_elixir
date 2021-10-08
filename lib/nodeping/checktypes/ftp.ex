@@ -1,11 +1,6 @@
 defmodule NodePing.Checktypes.Ftp do
-  @moduledoc """
-  The FTP check not only alerts you when your FTP service stops functioning
-  properly but will also optionally alert you to the absence or presence of
-  any particular file on the service.
+  @moduledoc false
 
-  https://nodeping.com/ftp_check.html
-  """
   @enforce_keys [:target]
   defstruct [
     :target,

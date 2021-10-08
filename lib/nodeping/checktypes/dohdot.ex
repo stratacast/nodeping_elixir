@@ -1,12 +1,6 @@
 defmodule NodePing.Checktypes.DohDot do
-  @moduledoc """
-  Use NodePing's DoH/DoT check to ensure your DoH or DoT services are up and
-  replying to queries. The optional abilities to verify the SSL certificates,
-  send EDNS(0) OPT pseudo-records, and use TLS client certificates makes our
-  DoH/DoT check extremely capable.
+  @moduledoc false
 
-  https://nodeping.com/dohdot_check.html
-  """
   defstruct [
     :target,
     :dnstoresolve,

@@ -417,17 +417,9 @@ defmodule NodePing.Checks do
       Helpers.add_cust_id([{:token, token}], customerid)
       |> Helpers.merge_querystrings()
 
-    default_fields = Map.from_struct(checktype_struct)
-    # Get keys that user supplied that matches values in struct
-    accepted_user_keys = Enum.filter(Map.keys(default_fields), fn x -> args[x] end)
-
-    Enum.filter(args, fn {k, _v} -> Enum.member?(accepted_user_keys, k) end)
-    |> Map.new()
-    |> (&Map.merge(default_fields, &1)).()
-    |> Enum.filter(fn {_k, v} -> is_nil(v) == false end)
-    |> Map.new()
-    |> (&HttpRequests.post(@api_url <> "/checks" <> querystrings, &1)).()
-  end
+    post_data = NodePing.Helpers.combine_map_struct(checktype_struct, args)
+    HttpRequests.post("#{@api_url}/checks#{querystrings}", post_data)
+ end
 
   @doc """
   Create a new check for your NodePing account or subaccount
@@ -480,16 +472,10 @@ defmodule NodePing.Checks do
       Helpers.add_cust_id([{:token, token}], customerid)
       |> Helpers.merge_querystrings()
 
-    default_fields = Map.from_struct(checktype_struct)
-    # Get keys that user supplied that matches values in struct
-    accepted_user_keys = Enum.filter(Map.keys(default_fields), fn x -> args[x] end)
+    put_data = NodePing.Helpers.combine_map_struct(checktype_struct, args)
 
-    Enum.filter(args, fn {k, _v} -> Enum.member?(accepted_user_keys, k) end)
-    |> Map.new()
-    |> (&Map.merge(default_fields, &1)).()
-    |> Map.new()
-    |> (&HttpRequests.put(@api_url <> "/checks/#{id}" <> querystrings, &1)).()
-  end
+    HttpRequests.put("#{@api_url}/checks/#{id}#{querystrings}", put_data)
+ end
 
   @doc """
   Update an existing check for your NodePing account or subaccount

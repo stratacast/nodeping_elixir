@@ -30,6 +30,7 @@ defmodule NodePing.Checks do
       iex> customerid = System.fetch_env!("CUSTOMERID")
       iex> {:ok, result} = NodePing.Checks.get_checks(token, [{:customerid, customerid}])
   """
+  @spec get_checks(token :: bitstring(), opts :: list()) :: tuple()
   def get_checks(token, opts \\ []) do
     querystrings = Helpers.merge_querystrings([{:token, token}] ++ opts)
 
@@ -56,6 +57,7 @@ defmodule NodePing.Checks do
       iex> customerid = System.fetch_env!("CUSTOMERID")
       iex> result = NodePing.Checks.get_checks!(token, [{:customerid, customerid}])
   """
+  @spec get_checks!(token :: bitstring(), opts :: list()) :: map()
   def get_checks!(token, opts \\ []) do
     case get_checks(token, opts) do
       {:ok, result} -> result
@@ -83,6 +85,7 @@ defmodule NodePing.Checks do
       iex> checkids = ["201205050153W2Q4C-0J2HSIRF", "201205050153W2Q4C-4RZT8MLN"]
       iex> {:ok, result} = NodePing.Checks.get_many(token, checkids, [{:uptime, true}])
   """
+  @spec get_many(token :: bitstring(), checkids :: list(), opts :: list()) :: tuple()
   def get_many(token, checkids, opts \\ []) do
     ids = {:id, Enum.join(checkids, ",")}
     querystrings = Helpers.merge_querystrings([{:token, token}, ids] ++ opts)
@@ -111,6 +114,7 @@ defmodule NodePing.Checks do
       iex> checkids = ["201205050153W2Q4C-0J2HSIRF", "201205050153W2Q4C-4RZT8MLN"]
       iex> result = NodePing.Checks.get_many!(token, checkids, [{:uptime, true}])
   """
+  @spec get_many!(token :: bitstring(), checkids :: list(), opts :: list()) :: map()
   def get_many!(token, checkids, opts \\ []) do
     case get_many(token, checkids, opts) do
       {:ok, result} -> result
@@ -136,6 +140,7 @@ defmodule NodePing.Checks do
       iex> token = System.fetch_env!("TOKEN")
       iex> passing_checks = NodePing.Checks.get_passing_checks(token, [{:uptime, true}])
   """
+  @spec get_passing_checks(token :: bitstring(), opts :: list()) :: tuple()
   def get_passing_checks(token, opts \\ []) do
     case get_checks(token, opts) do
       {:ok, result} -> {:ok, Enum.filter(result, fn {_k, v} -> v["state"] == 1 end)}
@@ -161,6 +166,7 @@ defmodule NodePing.Checks do
       iex> token = System.fetch_env!("TOKEN")
       iex> passing_checks = NodePing.Checks.get_passing_checks!(token, [{:uptime, true}])
   """
+  @spec get_passing_checks!(token :: bitstring(), opts :: list()) :: map()
   def get_passing_checks!(token, opts \\ []) do
     case get_passing_checks(token, opts) do
       {:ok, result} -> result
@@ -186,6 +192,7 @@ defmodule NodePing.Checks do
       iex> token = System.fetch_env!("TOKEN")
       iex> {:ok, failing_checks} = NodePing.Checks.get_failing_checks(token)
   """
+  @spec get_failing_checks(token :: bitstring(), opts :: list()) :: tuple()
   def get_failing_checks(token, opts \\ []) do
     case get_checks(token, opts) do
       {:ok, result} -> {:ok, Enum.filter(result, fn {_k, v} -> v["state"] == 0 end)}
@@ -211,6 +218,7 @@ defmodule NodePing.Checks do
       iex> token = System.fetch_env!("TOKEN")
       iex> failing_checks = NodePing.Checks.get_failing_checks!(token)
   """
+  @spec get_failing_checks!(token :: bitstring(), opts :: list()) :: tuple()
   def get_failing_checks!(token, opts \\ []) do
     case get_failing_checks(token, opts) do
       {:ok, result} -> result
@@ -232,6 +240,7 @@ defmodule NodePing.Checks do
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
 
   """
+  @spec get_disabled_checks(token :: bitstring(), opts :: list()) :: tuple()
   def get_disabled_checks(token, opts \\ []) do
     case get_checks(token, opts) do
       {:ok, result} -> {:ok, Enum.filter(result, fn {_k, v} -> v["enable"] != "active" end)}
@@ -253,6 +262,7 @@ defmodule NodePing.Checks do
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
 
   """
+  @spec get_disabled_checks!(token :: bitstring(), opts :: list()) :: map()
   def get_disabled_checks!(token, opts \\ []) do
     case get_disabled_checks(token, opts) do
       {:ok, result} -> result
@@ -274,6 +284,7 @@ defmodule NodePing.Checks do
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
   """
+  @spec get_last_result(token :: bitstring(), id :: bitstring(), opts :: list()) :: tuple()
   def get_last_result(token, id, opts \\ []) do
     querystrings = Helpers.merge_querystrings([{:token, token}] ++ opts)
 
@@ -295,6 +306,7 @@ defmodule NodePing.Checks do
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
   """
+  @spec get_last_result!(token :: bitstring(), id :: bitstring(), opts :: list()) :: map()
   def get_last_result!(token, id, opts \\ []) do
     case get_last_result(token, id, opts) do
       {:ok, result} -> result
@@ -316,6 +328,7 @@ defmodule NodePing.Checks do
   - `customerid` - optional ID to access a subaccount
   - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
   """
+  @spec get_by_id(token :: bitstring(), id :: bitstring(), opts :: list()) :: tuple()
   def get_by_id(token, id, opts \\ []) do
     querystrings = Helpers.merge_querystrings([{:token, token}] ++ opts)
 
@@ -337,6 +350,7 @@ defmodule NodePing.Checks do
    - `customerid` - optional ID to access a subaccount
    - `uptime` - boolean - If this parameter is present the check's uptime will be added to the response
   """
+  @spec get_by_id!(token :: bitstring(), id :: bitstring(), opts :: list()) :: map()
   def get_by_id!(token, id, opts \\ []) do
     case get_by_id(token, id, opts) do
       {:ok, result} -> result
@@ -352,6 +366,7 @@ defmodule NodePing.Checks do
   - `check_map` - a map of checks already fetched from the NodePing API
   - `id` - Check ID of the check you want to fetch information about
   """
+  @spec find_by_id(check_map :: map(), id :: bitstring()) :: list()
   def find_by_id(check_map, id) do
     Enum.filter(check_map, fn {k, _v} -> k == id end)
   end
@@ -364,6 +379,7 @@ defmodule NodePing.Checks do
   - `check_map` - a map of checks already fetched from the NodePing API
   - `status` - an atom with the values `:passing` or `:failing`
   """
+  @spec find_by_state(check_map :: map(), status :: atom()) :: list()
   def find_by_state(check_map, status \\ :passing) do
     if status == :passing do
       Enum.filter(check_map, fn {_k, v} -> v["state"] == 1 end)
@@ -379,6 +395,8 @@ defmodule NodePing.Checks do
   - `id` - Check ID of the check you want to verify is present or not
   - `customerid` - optional ID to access a subaccount
   """
+  @spec check_exists?(token :: bitstring(), id :: bitstring(), customerid :: bitstring() | nil) ::
+          boolean()
   def check_exists?(token, id, customerid \\ nil) do
     {:ok, result} = get_by_id(token, id, [{:customerid, customerid}])
 
@@ -412,6 +430,12 @@ defmodule NodePing.Checks do
       iex> args = %{label: "my label", target: "example.com", interval: 1, enabled: true}
       iex> NodePing.Checks.create_check(token, checktype, args)
   """
+  @spec create_check(
+          token :: bitstring(),
+          checktype_struct :: struct(),
+          args :: map(),
+          customerid :: bitstring() | nil
+        ) :: tuple()
   def create_check(token, checktype_struct, args, customerid \\ nil) when is_map(args) do
     querystrings =
       Helpers.add_cust_id([{:token, token}], customerid)
@@ -443,6 +467,12 @@ defmodule NodePing.Checks do
       iex> args = %{label: "my label", target: "example.com", interval: 1, enabled: true}
       iex> NodePing.Checks.create_check!(token, checktype, args)
   """
+  @spec create_check!(
+          token :: bitstring(),
+          checktype_struct :: struct(),
+          args :: map(),
+          customerid :: bitstring() | nil
+        ) :: map()
   def create_check!(token, checktype_struct, args, customerid \\ nil) when is_map(args) do
     case NodePing.Checks.create_check(token, checktype_struct, args, customerid) do
       {:ok, result} -> result
@@ -467,6 +497,13 @@ defmodule NodePing.Checks do
       iex> args = %{label: "my label", target: "example.com", interval: 1, enabled: true}
       iex> NodePing.Checks.update_check(token, check_id, checktype, args)
   """
+  @spec update_check(
+          token :: bitstring(),
+          id :: bitstring(),
+          checktype_struct :: struct(),
+          args :: map(),
+          customerid :: bitstring() | nil
+        ) :: tuple()
   def update_check(token, id, checktype_struct, args, customerid \\ nil) when is_map(args) do
     querystrings =
       Helpers.add_cust_id([{:token, token}], customerid)
@@ -494,6 +531,13 @@ defmodule NodePing.Checks do
       iex> args = %{label: "my label", target: "example.com", interval: 1, enabled: true}
       iex> NodePing.Checks.update_check!(token, check_id, checktype, args)
   """
+  @spec update_check!(
+          token :: bitstring(),
+          id :: bitstring(),
+          checktype_struct :: struct(),
+          args :: map(),
+          customerid :: bitstring() | nil
+        ) :: map()
   def update_check!(token, id, checktype_struct, args, customerid \\ nil) when is_map(args) do
     case NodePing.Checks.update_check(token, id, checktype_struct, args, customerid) do
       {:ok, result} -> result
@@ -512,6 +556,13 @@ defmodule NodePing.Checks do
   - `duration` - duration in seconds that the check will be muted
   - `customerid` - optional customerid for subaccount
   """
+  @spec mute_check(
+          token :: bitstring(),
+          id :: bitstring(),
+          checktype_struct :: struct(),
+          duration :: non_neg_integer() | boolean(),
+          customerid :: bitstring() | nil
+        ) :: tuple()
   def mute_check(token, id, checktype_struct, duration, customerid \\ nil)
 
   def mute_check(token, id, checktype_struct, duration, customerid) when is_integer(duration) do
@@ -538,6 +589,13 @@ defmodule NodePing.Checks do
   - `duration` - duration in seconds that the check will be muted
   - `customerid` - optional customerid for subaccount
   """
+  @spec mute_check!(
+          token :: bitstring(),
+          id :: bitstring(),
+          checktype_struct :: struct(),
+          duration :: non_neg_integer() | boolean(),
+          customerid :: bitstring() | nil
+        ) :: map()
   def mute_check!(token, id, checktype_struct, duration, customerid \\ nil) do
     case mute_check(token, id, checktype_struct, duration, customerid) do
       {:ok, result} -> result
@@ -560,6 +618,8 @@ defmodule NodePing.Checks do
       iex> check_id = "201205050153W2Q4C-0J2HSIRF"
       iex> {:ok, result} = NodePing.Checks.delete_check(token, check_id)
   """
+  @spec delete_check(token :: bitstring(), id :: bitstring(), customerid :: bitstring() | nil) ::
+          tuple()
   def delete_check(token, id, customerid \\ nil) when is_bitstring(token) do
     querystrings =
       Helpers.add_cust_id([{:token, token}], customerid)
@@ -584,6 +644,8 @@ defmodule NodePing.Checks do
       iex> check_id = "201205050153W2Q4C-0J2HSIRF"
       iex> result = NodePing.Checks.delete_check!(token, check_id)
   """
+  @spec delete_check!(token :: bitstring(), id :: bitstring(), customerid :: bitstring() | nil) ::
+          map()
   def delete_check!(token, id, customerid \\ nil) when is_bitstring(token) do
     case NodePing.Checks.delete_check(token, id, customerid) do
       {:ok, result} -> result
@@ -607,6 +669,8 @@ defmodule NodePing.Checks do
       iex> disableall = true
       iex> {:ok, result} = NodePing.Checks.disable_all_checks(token, disableall, opts)
   """
+  @spec disable_all_checks(token :: bitstring(), disableall :: boolean(), opts :: list()) ::
+          tuple()
   def disable_all_checks(token, disableall, opts \\ []) do
     querystrings =
       (opts ++ [{:token, token}, {:disableall, disableall}])
@@ -633,6 +697,8 @@ defmodule NodePing.Checks do
       iex> disableall = true
       iex> result = NodePing.Checks.disable_all_checks!(token, disableall, opts)
   """
+  @spec disable_all_checks!(token :: bitstring(), disableall :: boolean(), opts :: list()) ::
+          map()
   def disable_all_checks!(token, disableall, opts \\ []) do
     case NodePing.Checks.disable_all_checks(token, disableall, opts) do
       {:ok, result} -> result

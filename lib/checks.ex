@@ -419,7 +419,7 @@ defmodule NodePing.Checks do
 
     post_data = NodePing.Helpers.combine_map_struct(checktype_struct, args)
     HttpRequests.post("#{@api_url}/checks#{querystrings}", post_data)
- end
+  end
 
   @doc """
   Create a new check for your NodePing account or subaccount
@@ -475,7 +475,7 @@ defmodule NodePing.Checks do
     put_data = NodePing.Helpers.combine_map_struct(checktype_struct, args)
 
     HttpRequests.put("#{@api_url}/checks/#{id}#{querystrings}", put_data)
- end
+  end
 
   @doc """
   Update an existing check for your NodePing account or subaccount
@@ -496,6 +496,50 @@ defmodule NodePing.Checks do
   """
   def update_check!(token, id, checktype_struct, args, customerid \\ nil) when is_map(args) do
     case NodePing.Checks.update_check(token, id, checktype_struct, args, customerid) do
+      {:ok, result} -> result
+      {:error, error} -> error
+    end
+  end
+
+  @doc """
+  Mute all notifications for the specified check
+
+  ## Parameters
+
+  - `token` - NodePing API token that is provided with account
+  - `id` - the checkid that will be muted
+  - `checktype_struct` - the `NodePing.Checktypes` that defines the check you are trying to mute
+  - `duration` - duration in seconds that the check will be muted
+  - `customerid` - optional customerid for subaccount
+  """
+  def mute_check(token, id, checktype_struct, duration, customerid \\ nil)
+
+  def mute_check(token, id, checktype_struct, duration, customerid) when is_integer(duration) do
+    mute_time =
+      DateTime.utc_now()
+      |> DateTime.add(duration, :second)
+      |> DateTime.to_unix(:millisecond)
+
+    send_mute(token, id, checktype_struct, mute_time, customerid)
+  end
+
+  def mute_check(token, id, checktype_struct, duration, customerid) when is_boolean(duration) do
+    send_mute(token, id, checktype_struct, duration, customerid)
+  end
+
+  @doc """
+  Mute all notifications for the specified check
+
+  ## Parameters
+
+  - `token` - NodePing API token that is provided with account
+  - `id` - the checkid that will be muted
+  - `checktype_struct` - the `NodePing.Checktypes` that defines the check you are trying to mute
+  - `duration` - duration in seconds that the check will be muted
+  - `customerid` - optional customerid for subaccount
+  """
+  def mute_check!(token, id, checktype_struct, duration, customerid \\ nil) do
+    case mute_check(token, id, checktype_struct, duration, customerid) do
       {:ok, result} -> result
       {:error, error} -> error
     end
@@ -594,5 +638,21 @@ defmodule NodePing.Checks do
       {:ok, result} -> result
       {:error, error} -> error
     end
+  end
+
+  defp send_mute(token, id, checktype_struct, duration, customerid) do
+    querystrings =
+      Helpers.add_cust_id([{:token, token}], customerid)
+      |> Helpers.merge_querystrings()
+
+    checktype =
+      checktype_struct
+      |> Map.from_struct()
+      |> Map.get(:type)
+
+    HttpRequests.put("#{@api_url}/checks/#{id}#{querystrings}", %{
+      mute: duration,
+      type: checktype
+    })
   end
 end

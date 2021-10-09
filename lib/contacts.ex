@@ -263,29 +263,19 @@ defmodule NodePing.Contacts do
   - `duration` - time to mute the contact method in seconds
   - `customerid` - optional ID to access a subaccount
   """
-  def mute_contact_method(token, id, duration, customerid \\ nil) do
-    contacts = get_all!(token, customerid)
+  def mute_contact_method(token, id, duration, customerid \\ nil)
 
-    {contact_id, addresses} =
-      contacts
-      |> Enum.find(fn {_, v} -> get_in(v, ["addresses", id]) != nil end)
-
+  def mute_contact_method(token, id, duration, customerid) when is_integer(duration) do
     mute_time =
       DateTime.utc_now()
       |> DateTime.add(duration, :second)
       |> DateTime.to_unix(:millisecond)
 
-    muted =
-      addresses
-      |> get_in(["addresses", id])
-      |> Map.update("mute", mute_time, fn _x -> mute_time end)
+    send_mute_contact_method(token, id, mute_time, customerid)
+  end
 
-    new_addresses =
-      addresses
-      |> Map.get("addresses")
-      |> Map.replace(id, muted)
-
-    NodePing.Contacts.update_contact!(token, contact_id, %{addresses: new_addresses}, customerid)
+  def mute_contact_method(token, id, duration, customerid) when is_boolean(duration) do
+    send_mute_contact_method(token, id, duration, customerid)
   end
 
   @doc """
@@ -322,20 +312,21 @@ defmodule NodePing.Contacts do
   - `duration` - time to mute the contact method in seconds
   - `customerid` - optional ID to access a subaccount
   """
-  def mute_contact(token, id, duration, customerid \\ nil) do
+  def mute_contact(token, id, duration, customerid \\ nil)
+
+  def mute_contact(token, id, duration, customerid) when is_integer(duration) do
     mute_time =
       DateTime.utc_now()
       |> DateTime.add(duration, :second)
       |> DateTime.to_unix(:millisecond)
 
-    addresses =
-      get_by_id!(token, id, customerid)
-      |> Map.get("addresses")
-      |> Enum.map(fn {k, v} -> {k, Map.update(v, "mute", mute_time, fn _x -> mute_time end)} end)
-      |> Enum.into(%{})
-
-    NodePing.Contacts.update_contact!(token, id, %{addresses: addresses}, customerid)
+    send_mute_contact(token, id, mute_time, customerid)
   end
+
+  def mute_contact(token, id, duration, customerid) when is_boolean(duration) do
+    send_mute_contact(token, id, duration, customerid)
+  end
+
   @doc """
 
   Mute an entire contact for a specified duration in seconds.
@@ -377,5 +368,35 @@ defmodule NodePing.Contacts do
       {:ok, result} -> result
       {:error, error} -> error
     end
+  end
+
+  defp send_mute_contact(token, id, duration, customerid) do
+    addresses =
+      get_by_id!(token, id, customerid)
+      |> Map.get("addresses")
+      |> Enum.map(fn {k, v} -> {k, Map.update(v, "mute", duration, fn _x -> duration end)} end)
+      |> Enum.into(%{})
+
+    NodePing.Contacts.update_contact!(token, id, %{addresses: addresses}, customerid)
+  end
+
+  defp send_mute_contact_method(token, id, duration, customerid) do
+    contacts = get_all!(token, customerid)
+
+    {contact_id, addresses} =
+      contacts
+      |> Enum.find(fn {_, v} -> get_in(v, ["addresses", id]) != nil end)
+
+    muted =
+      addresses
+      |> get_in(["addresses", id])
+      |> Map.update("mute", duration, fn _x -> duration end)
+
+    new_addresses =
+      addresses
+      |> Map.get("addresses")
+      |> Map.replace(id, muted)
+
+    NodePing.Contacts.update_contact!(token, contact_id, %{addresses: new_addresses}, customerid)
   end
 end

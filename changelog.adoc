@@ -4,7 +4,27 @@ All notable changes to this project will be documented in this file.
 
 == Unreleased
 
-(Placeholder for unreleased content)
+=== Upcoming
+
+A future v2 release will be coming out and changing some return types. Namely, functions
+that are returning a single item list will be changed to returning the single item in the list.
+For example, `NodePing.Checks.find_by_id/2` returns the check with the ID, but in a list, so you
+have to proceed with a following `List.first/1` to get the map.
+
+There will likely also be some upcoming improvements changes as the library is reviewed.
+
+== 2021-10-08 v1.2.3
+
+=== Added
+
+* Support added for muting checks and contacts as per the 2021-10-07 NodePing API changelog
+* Some Additions to the README
+* typespecs added in the `NodePing.Checks` module
+
+=== Changed
+
+* All defstruct modules had the moduledoc changed to false to clean up the documentation page. The moduledocs
+were previously just copy/paste from NodePing's check definitions and can be found there for each check type.
 
 == 2021-08-25 v1.2.2
 

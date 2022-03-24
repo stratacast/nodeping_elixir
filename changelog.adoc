@@ -13,6 +13,12 @@ have to proceed with a following `List.first/1` to get the map.
 
 There will likely also be some upcoming improvements changes as the library is reviewed.
 
+== 2022-03-24 v1.4.0
+
+=== Added
+
+* Added support for the notifications profile feature: https://nodeping.com/docs-api-notificationprofiles.html
+
 == 2021-12-01 v1.3.0
 
 === Changed

@@ -13,6 +13,13 @@ have to proceed with a following `List.first/1` to get the map.
 
 There will likely also be some upcoming improvements changes as the library is reviewed.
 
+== 2022-10-06 v1.5.0
+
+=== Added
+
+* MTR check added: https://nodeping.com/mtr_check.html
+* Redis check added: https://nodeping.com/redis_check.html
+
 == 2022-03-24 v1.4.0
 
 === Added

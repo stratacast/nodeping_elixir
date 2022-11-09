@@ -16,7 +16,7 @@ defmodule NodePing.Checktypes.Audio do
     homeloc: false,
     threshold: 5,
     sens: 2,
-    deps: nil,
+    dep: nil,
     notifications: []
   ]
 end

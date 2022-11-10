@@ -13,6 +13,21 @@ have to proceed with a following `List.first/1` to get the map.
 
 There will likely also be some upcoming improvements changes as the library is reviewed.
 
+== 2022-11-09 v1.6.0
+
+=== Added
+
+* PostgreSQL check added: https://nodeping.com/pgsql_check.html
+* Typespecs added to checktypes
+
+=== Changed
+
+* MySQL check updated: https://nodeping.com/mysql_check.html
+
+=== Fixed
+
+* Some check types were missing some fields. They have been corrected.
+
 == 2022-10-06 v1.5.0
 
 === Added

@@ -14,4 +14,22 @@ defmodule NodePing.Checktypes.Cluster do
             threshold: 5,
             sens: 2,
             notifications: []
+
+  @typedoc """
+  Cluster Check field types
+  """
+  @type t :: %__MODULE__{
+    label: String.t() | nil,
+    data: [String.t()],
+    type: String.t(),
+    autodiag: boolean(),
+    interval: non_neg_integer(),
+    enabled: boolean(),
+    public: boolean(),
+    runlocations: nil | [String.t()],
+    homeloc: nil | String.t(),
+    threshold: non_neg_integer(),
+    sens: non_neg_integer(),
+    notifications: [map()]
+  }
 end

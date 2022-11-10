@@ -24,4 +24,30 @@ defmodule NodePing.Checktypes.Imap4 do
     dep: nil,
     notifications: []
   ]
+
+  @typedoc """
+  IMAP field types
+  """
+  @type t :: %__MODULE__{
+    target: String.t(),
+    label: String.t() | nil,
+    autodiag: boolean(),
+    type: String.t(),
+    port: non_neg_integer(),
+    verify: boolean(),
+    email: nil | String.t(),
+    username: nil | String.t(),
+    password: nil | String.t(),
+    secure: false | :ssl,
+    warningdays: false | non_neg_integer(),
+    interval: non_neg_integer(),
+    enabled: boolean(),
+    public: boolean(),
+    runlocations: nil | [String.t()],
+    homeloc: nil | String.t(),
+    threshold: non_neg_integer(),
+    sens: non_neg_integer(),
+    dep: nil | String.t(),
+    notifications: [map()]
+  }
 end

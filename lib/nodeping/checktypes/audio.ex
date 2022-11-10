@@ -19,4 +19,25 @@ defmodule NodePing.Checktypes.Audio do
     dep: nil,
     notifications: []
   ]
+
+  @typedoc """
+  Audio Check field types
+  """
+  @type t :: %__MODULE__{
+    target: String.t(),
+    label: String.t() | nil,
+    type: String.t(),
+    verifyvolume: boolean(),
+    autodiag: boolean(),
+    volumemin: integer(),
+    interval: non_neg_integer(),
+    enabled: boolean(),
+    public: boolean(),
+    runlocations: nil | [String.t()],
+    homeloc: nil | String.t(),
+    threshold: non_neg_integer(),
+    sens: non_neg_integer(),
+    dep: nil | String.t(),
+    notifications: [map()]
+  }
 end

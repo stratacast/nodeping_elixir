@@ -27,4 +27,33 @@ defmodule NodePing.Checktypes.HttpAdv do
     dep: nil,
     notifications: []
   ]
+
+  @typedoc """
+  HTTP ADV Check field types
+  """
+  @type t :: %__MODULE__{
+    target: String.t(),
+    label: String.t() | nil,
+    autodiag: boolean(),
+    type: String.t(),
+    invert: boolean(),
+    contentstring: nil | String.t(),
+    data: map(),
+    method: nil | String.t(),
+    postdata: map(),
+    receiveheaders: nil | map(),
+    sendheaders: nil | map(),
+    statuscode: non_neg_integer(),
+    ipv6: boolean(),
+    follow: boolean(),
+    interval: non_neg_integer(),
+    enabled: boolean(),
+    public: boolean(),
+    runlocations: nil | [String.t()],
+    homeloc: nil | String.t(),
+    threshold: non_neg_integer(),
+    sens: non_neg_integer(),
+    dep: nil | String.t(),
+    notifications: [map()]
+  }
 end

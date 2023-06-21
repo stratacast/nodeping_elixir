@@ -13,6 +13,13 @@ have to proceed with a following `List.first/1` to get the map.
 
 There will likely also be some upcoming improvements changes as the library is reviewed.
 
+== 2023-06-21 v1.7.0
+
+=== Added
+
+* MongoDB check added: https://nodeping.com/mongodb_check.html
+* Added `clientcert` option to the httpadv checktype
+
 == 2022-11-09 v1.6.0
 
 === Added

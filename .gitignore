@@ -23,6 +23,6 @@ erl_crash.dump
 nodeping_elixir-*.tar
 
 /.elixir_ls/
-.secrets.sh
+.secret*
 README.html
 .tool-versions
